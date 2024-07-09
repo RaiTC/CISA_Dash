@@ -3,7 +3,8 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 import pandas as pd
 import plotly.express as px
-from data_fetcher import fetch_cisa_data, process_cisa_data
+from data_fetcher import fetch_cisa_data, process_cisa_data, fetch_epss_score, fetch_cvss_base_score
+import requests
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
@@ -28,7 +29,7 @@ top_vendors_df.columns = ['Vendor/Project', 'Count']
 # Layout for the Dashboard page
 dashboard_layout = html.Div([
     dbc.Container([
-        html.H1("VMD Dash ", className="my-4"),
+        html.H1("Vulnerability Management Dashboard", className="my-4"),
         dbc.Row([
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -118,7 +119,9 @@ column_rename_dict = {
     "dueDate": "Due Date",
     "knownRansomwareCampaignUse": "Known Ransomware Use",
     "notes": "Notes",
-    "cwes": "CWEs"
+    "cwes": "CWEs",
+    "EPSS": "EPSS",
+    "CVSS3": "CVSS Base Score"
 }
 
 # Callback to update the CVE database table
