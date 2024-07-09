@@ -1,6 +1,6 @@
 import dash
 import dash_bootstrap_components as dbc
-from dash import dcc, html, Input, Output, State
+from dash import dcc, html, Input, Output, State, dash_table
 import pandas as pd
 import plotly.express as px
 from data_fetcher import fetch_cisa_data, process_cisa_data
@@ -12,6 +12,15 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_
 cisa_data = fetch_cisa_data()
 cisa_df = process_cisa_data(cisa_data)
 
+# Convert non-supported types (like lists, CWEs) to strings
+def convert_to_string(df):
+    for col in df.columns:
+        if df[col].apply(lambda x: isinstance(x, (list, dict))).any():
+            df[col] = df[col].apply(str)
+    return df
+
+cisa_df = convert_to_string(cisa_df)
+
 # Prepare data for bar chart
 top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
 top_vendors_df.columns = ['Vendor/Project', 'Count']
@@ -19,7 +28,7 @@ top_vendors_df.columns = ['Vendor/Project', 'Count']
 # Layout for the Dashboard page
 dashboard_layout = html.Div([
     dbc.Container([
-        html.H1("Dashboard", className="my-4"),
+        html.H1("VMD Dash ", className="my-4"),
         dbc.Row([
             dbc.Col(dbc.Card([
                 dbc.CardBody([
@@ -40,7 +49,7 @@ dashboard_layout = html.Div([
                     top_vendors_df,
                     x='Vendor/Project', y='Count',
                     labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of CVEs'},
-                    title='Top 5 Vendors/Projects with the Most CVEs'
+                    title='Top 5 Vendors/Projects with the Most KEVs'
                 )
             ), width=6),
         ])
@@ -65,7 +74,7 @@ cve_database_layout = html.Div([
             placeholder='Filter by Vendor/Project'
         ),
         html.Br(),
-        dbc.Input(id="search-input", placeholder="Search CVEs...", type="text"),
+        dbc.Input(id="search-input", placeholder="Search CVEs...", type="text", debounce=True),
         html.Br(),
         dbc.Button("Search", id="search-button", color="primary", className="me-1"),
         html.Br(), html.Br(),
@@ -76,7 +85,7 @@ cve_database_layout = html.Div([
 # Define the app layout with a navigation bar
 app.layout = html.Div([
     dbc.NavbarSimple(
-        brand="CVE Dashboard",
+        brand="Vulnerability Management Dashboard",
         brand_href="/",
         color="primary",
         dark=True,
@@ -117,13 +126,14 @@ column_rename_dict = {
     Output('cve-database-table', 'children'),
     [
         Input('search-button', 'n_clicks'),
+        Input('search-input', 'n_submit'),
         Input('date-picker-range', 'start_date'),
         Input('date-picker-range', 'end_date'),
         Input('vendor-filter', 'value')
     ],
     State('search-input', 'value')
 )
-def update_cve_database_table(n_clicks, start_date, end_date, selected_vendors, search_value):
+def update_cve_database_table(n_clicks, n_submit, start_date, end_date, selected_vendors, search_value):
     filtered_df = cisa_df.copy()
     
     # Filter by date
@@ -143,7 +153,64 @@ def update_cve_database_table(n_clicks, start_date, end_date, selected_vendors, 
     # Rename columns
     filtered_df = filtered_df.rename(columns=column_rename_dict)
     
-    return dbc.Table.from_dataframe(filtered_df, striped=True, bordered=True, hover=True)
+    # Convert any non-supported types to strings
+    filtered_df = convert_to_string(filtered_df)
+
+    # Determine height based on the number of rows (populate low search reasults accordingly)
+    max_height = "500px"
+    if len(filtered_df) <= 5:
+        height = "auto"
+    else:
+        height = max_height
+    
+    # Create table with auto width adjustment using dash.dash_table.DataTable
+    return dash_table.DataTable(
+        data=filtered_df.to_dict('records'),
+        columns=[{"name": i, "id": i} for i in filtered_df.columns],
+        style_table={'overflowX': 'auto', 'width': '100%', 'height': height, 'maxHeight': max_height},
+        style_cell={
+            'textAlign': 'left',
+            'whiteSpace': 'normal',
+            'height': 'auto',
+            'overflow': 'hidden',
+            'textOverflow': 'ellipsis',
+            'minWidth': '100px',
+            'maxWidth': '150px',
+        },
+
+        # Wider boxes for larger data entry
+        style_data_conditional=[
+            {
+                'if': {'column_id': 'Description'},
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'minWidth': '300px',
+                'maxWidth': '500px',
+            },
+            {
+                'if': {'column_id': 'Required Action'},
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'minWidth': '300px',
+                'maxWidth': '500px',
+            },
+            {
+                'if': {'column_id': 'Notes'},
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'minWidth': '300px',
+                'maxWidth': '500px',
+            }
+        ],
+        tooltip_data=[
+            {
+                column: {'value': str(value), 'type': 'markdown'}
+                for column, value in row.items()
+            } for row in filtered_df.to_dict('records')
+        ],
+        tooltip_duration=None,  # Keep tooltips open until mouseout
+        page_size=15  # Number of rows per page
+    )
 
 if __name__ == '__main__':
     app.run_server(debug=True)
