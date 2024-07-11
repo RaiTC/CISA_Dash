@@ -34,8 +34,25 @@ def fetch_cvss_base_score(cve):
         data = response.json()
         if 'vulnerabilities' in data and len(data['vulnerabilities']) > 0:
             try:
-                base_score = float(data['vulnerabilities'][0]["cve"]['metrics']['cvssMetricV31'][0]['cvssData']['baseScore'])
-                return base_score
-            except (KeyError, ValueError):
-                pass
+                cvss_metrics = data['vulnerabilities'][0]['cve']['metrics']
+                
+                # Check for CVSS v3.1 score
+                if 'cvssMetricV31' in cvss_metrics and len(cvss_metrics['cvssMetricV31']) > 0:
+                    base_score = cvss_metrics['cvssMetricV31'][0]['cvssData']['baseScore']
+                    return base_score
+                
+                # Check for CVSS v3.0 score
+                elif 'cvssMetricV30' in cvss_metrics and len(cvss_metrics['cvssMetricV30']) > 0:
+                    base_score = cvss_metrics['cvssMetricV30'][0]['cvssData']['baseScore']
+                    return base_score
+                
+                # Check for CVSS v2.0 score as a fallback
+                elif 'cvssMetricV2' in cvss_metrics and len(cvss_metrics['cvssMetricV2']) > 0:
+                    base_score = cvss_metrics['cvssMetricV2'][0]['cvssData']['baseScore']
+                    return base_score
+                
+            except (KeyError, ValueError) as e:
+                print(f"Error extracting CVSS base score for {cve}: {e}")
+    else:
+        print(f"Error fetching data for {cve}: HTTP {response.status_code}")
     return None
