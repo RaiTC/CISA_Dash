@@ -3,15 +3,13 @@ import dash_bootstrap_components as dbc
 from dash import dcc, html, Input, Output, State, dash_table
 import pandas as pd
 import plotly.express as px
-from data_fetcher import fetch_cisa_data, process_cisa_data, fetch_epss_score, fetch_cvss_base_score
-import requests
+from data_fetcher import get_latest_data
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
 
 # Fetch and process data
-cisa_data = fetch_cisa_data()
-cisa_df = process_cisa_data(cisa_data)
+cisa_df = get_latest_data()
 
 # Convert non-supported types (like lists, CWEs) to strings
 def convert_to_string(df):
@@ -26,6 +24,11 @@ cisa_df = convert_to_string(cisa_df)
 top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
 top_vendors_df.columns = ['Vendor/Project', 'Count']
 
+# Calculate Summary Metrics
+total_cves = cisa_df.shape[0]
+high_severity_cves = cisa_df[cisa_df['CVSS3'] >= 7.0].shape[0]
+upcoming_due_dates = cisa_df[(cisa_df['dueDate'] <= pd.Timestamp.now() + pd.DateOffset(days=7)) & (cisa_df['dueDate'] >= pd.Timestamp.now())].shape[0]
+
 # Layout for the Dashboard page
 dashboard_layout = html.Div([
     dbc.Container([
@@ -34,13 +37,19 @@ dashboard_layout = html.Div([
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.H5("Total CVEs", className="card-title"),
-                    html.P(f"{cisa_df.shape[0]}", className="card-text")
+                    html.P(f"{total_cves}", className="card-text")
                 ])
             ]), width=3),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.H5("Unresolved CVEs", className="card-title"),
-                    html.P(f"{cisa_df[cisa_df['dueDate'] > pd.Timestamp.now()].shape[0]}", className="card-text")
+                    html.H5("High Severity CVEs", className="card-title"),
+                    html.P(f"{high_severity_cves}", className="card-text")
+                ])
+            ]), width=3),
+            dbc.Col(dbc.Card([
+                dbc.CardBody([
+                    html.H5("Upcoming Due Dates", className="card-title"),
+                    html.P(f"{upcoming_due_dates}", className="card-text")
                 ])
             ]), width=3),
         ]),
@@ -83,6 +92,19 @@ cve_database_layout = html.Div([
     ])
 ])
 
+# Layout for the STIR (Severity, Trends, Impact, and Risk) pages
+def create_stir_page(title):
+    return html.Div([
+        dbc.Container([
+            html.H1(title, className="my-4"),
+        ])
+    ])
+
+severity_layout = create_stir_page("Severity")
+trends_layout = create_stir_page("Trends")
+impact_layout = create_stir_page("Impact")
+risks_layout = create_stir_page("Risks")
+
 # Define the app layout with a navigation bar
 app.layout = html.Div([
     dbc.NavbarSimple(
@@ -92,18 +114,37 @@ app.layout = html.Div([
         dark=True,
         children=[
             dbc.NavItem(dbc.NavLink("Dashboard", href="/")),
-            dbc.NavItem(dbc.NavLink("CVE Database", href="/cve-database"))
+            dbc.NavItem(dbc.NavLink("CVE Database", href="/cve-database")),
+            dbc.DropdownMenu(
+                label="STIR",
+                children=[
+                    dbc.DropdownMenuItem("Severity", href="/stir/severity"),
+                    dbc.DropdownMenuItem("Trends", href="/stir/trends"),
+                    dbc.DropdownMenuItem("Impact", href="/stir/impact"),
+                    dbc.DropdownMenuItem("Risks", href="/stir/risks")
+                ],
+                nav=True,
+                in_navbar=True
+            )
         ]
     ),
     dcc.Location(id='url', refresh=False),
     html.Div(id='page-content')
 ])
 
-# Callback to update the page content
+# Callbacks to update the page content
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/cve-database':
         return cve_database_layout
+    elif pathname == '/stir/severity':
+        return severity_layout
+    elif pathname == '/stir/trends':
+        return trends_layout
+    elif pathname == '/stir/impact':
+        return impact_layout
+    elif pathname == '/stir/risks':
+        return risks_layout
     else:
         return dashboard_layout
 

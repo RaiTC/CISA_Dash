@@ -1,12 +1,20 @@
+import os
+import json
 import requests
 import pandas as pd
+from datetime import datetime
+
+CACHE_FILE = 'data_cache.json'
+LEGACY_DIR = 'Legacy'
 
 def fetch_cisa_data():
+    print("Fetching data from CISA...")
     url = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
     response = requests.get(url)
     return response.json()
 
 def process_cisa_data(cisa_data):
+    print("Processing CISA data...")
     vulnerabilities = cisa_data['vulnerabilities']
     df = pd.DataFrame(vulnerabilities)
     df['dateAdded'] = pd.to_datetime(df['dateAdded'])
@@ -19,6 +27,7 @@ def process_cisa_data(cisa_data):
     return df
 
 def fetch_epss_score(cve):
+    print(f"Fetching EPSS score for {cve}...")
     url = f"https://api.first.org/data/v1/epss?cve={cve}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -28,6 +37,7 @@ def fetch_epss_score(cve):
     return None
 
 def fetch_cvss_base_score(cve):
+    print(f"Fetching CVSS base score for {cve}...")
     url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve}"
     response = requests.get(url)
     if response.status_code == 200:
@@ -56,3 +66,35 @@ def fetch_cvss_base_score(cve):
     else:
         print(f"Error fetching data for {cve}: HTTP {response.status_code}")
     return None
+
+def load_cached_data():
+    print("Loading cached data...")
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE, 'r') as file:
+            return json.load(file)
+    return None
+
+def save_cached_data(cisa_data):
+    print("Saving cached data...")
+    if not os.path.exists(LEGACY_DIR):
+        os.makedirs(LEGACY_DIR)
+    catalog_version = cisa_data['catalogVersion']
+    legacy_file = os.path.join(LEGACY_DIR, f"KEV_{catalog_version.replace('.', '')}.json")
+    if os.path.exists(CACHE_FILE):
+        with open(CACHE_FILE, 'r') as file:
+            old_data = json.load(file)
+        with open(legacy_file, 'w') as file:
+            json.dump(old_data, file, indent=4)
+    with open(CACHE_FILE, 'w') as file:
+        json.dump(cisa_data, file, indent=4)
+
+def get_latest_data():
+    print("Starting data fetching process...")
+    cisa_data = fetch_cisa_data()
+    cached_data = load_cached_data()
+    if cached_data is None or cached_data['catalogVersion'] != cisa_data['catalogVersion']:
+        print("New data available. Updating cache...")
+        save_cached_data(cisa_data)
+        return process_cisa_data(cisa_data)
+    print("Using cached data...")
+    return process_cisa_data(cached_data)
