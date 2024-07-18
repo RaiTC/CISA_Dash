@@ -20,14 +20,97 @@ def convert_to_string(df):
 
 cisa_df = convert_to_string(cisa_df)
 
-# Prepare data for bar chart
-top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
-top_vendors_df.columns = ['Vendor/Project', 'Count']
-
 # Calculate Summary Metrics
 total_cves = cisa_df.shape[0]
 high_severity_cves = cisa_df[cisa_df['CVSS3'] >= 7.0].shape[0]
 upcoming_due_dates = cisa_df[(cisa_df['dueDate'] <= pd.Timestamp.now() + pd.DateOffset(days=7)) & (cisa_df['dueDate'] >= pd.Timestamp.now())].shape[0]
+
+# Prepare data for bar chart
+top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
+top_vendors_df.columns = ['Vendor/Project', 'Count']
+
+# Define severity ranges
+def categorize_severity(cvss):
+    if cvss == 0:
+        return "N/A"
+    elif 0.1 <= cvss <= 3.9:
+        return "Low"
+    elif 4.0 <= cvss <= 6.9:
+        return "Medium"
+    elif 7.0 <= cvss <= 8.9:
+        return "High"
+    elif 9.0 <= cvss <= 10.0:
+        return "Critical"
+    return "N/A"
+
+cisa_df['Severity'] = cisa_df['CVSS3'].apply(categorize_severity)
+
+# Count KEVs by severity
+severity_counts = cisa_df['Severity'].value_counts().reset_index()
+severity_counts.columns = ['Severity', 'Count']
+
+# Create bar graph
+severity_colors = {'Critical': 'red', 'High': 'orange', 'Medium': 'yellow', 'Low': 'blue'}
+severity_bar_fig = px.bar(
+    severity_counts,
+    x='Severity',
+    y='Count',
+    text='Count',
+    title='KEV Count by Severity',
+    labels={'Severity': 'Severity', 'Count': 'Number of KEVs'},
+    color='Severity',
+    color_discrete_map=severity_colors
+)
+
+severity_bar_fig.update_traces(textposition='outside')
+
+# Create a new column to categorize CVEs for the scatter plot
+def highlight_high_severity(row):
+    if row['Severity'] in ['High', 'Critical'] and row['EPSS'] > 0.5:
+        return 'High Severity'
+    return 'Other'
+
+cisa_df['Highlight'] = cisa_df.apply(highlight_high_severity, axis=1)
+
+# Create scatter plot
+scatter_fig = px.scatter(
+    cisa_df,
+    x='CVSS3',
+    y='EPSS',
+    color='Highlight',
+    title='CVSS Base Scores vs. EPSS Scores',
+    labels={'CVSS3': 'CVSS Base Score', 'EPSS': 'EPSS Score'},
+    hover_data=['cveID', 'vulnerabilityName']
+)
+
+scatter_fig.update_layout(legend_title_text='Category')
+
+# Create line graph for KEVs added over time
+kevs_added_over_time = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).size().reset_index(name='Count')
+kevs_added_over_time['dateAdded'] = kevs_added_over_time['dateAdded'].dt.to_timestamp()
+
+line_fig = px.line(
+    kevs_added_over_time,
+    x='dateAdded',
+    y='Count',
+    title='Number of KEVs Added Over Time',
+    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'}
+)
+
+# Create stacked area chart for cumulative count of KEVs over time by severity
+cumulative_kevs = cisa_df.groupby([cisa_df['dateAdded'].dt.to_period('M'), 'Severity']).size().reset_index(name='Count')
+cumulative_kevs['dateAdded'] = cumulative_kevs['dateAdded'].dt.to_timestamp()
+cumulative_kevs = cumulative_kevs.sort_values(by='dateAdded')
+
+stacked_area_fig = px.area(
+    cumulative_kevs,
+    x='dateAdded',
+    y='Count',
+    color='Severity',
+    title='Cumulative Count of KEVs Over Time by Severity',
+    labels={'dateAdded': 'Date Added', 'Count': 'Cumulative Count'},
+    color_discrete_map=severity_colors
+)
 
 # Layout for the Dashboard page
 dashboard_layout = html.Div([
@@ -54,15 +137,22 @@ dashboard_layout = html.Div([
             ]), width=3),
         ]),
         dbc.Row([
-            dbc.Col(dcc.Graph(
-                figure=px.bar(
-                    top_vendors_df,
-                    x='Vendor/Project', y='Count',
-                    labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of CVEs'},
-                    title='Top 5 Vendors/Projects with the Most KEVs'
-                )
-            ), width=6),
-        ])
+            dbc.Col(dcc.Graph(figure=px.bar(
+                top_vendors_df,
+                x='Vendor/Project', y='Count',
+                labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of CVEs'},
+                title='Top 5 Vendors/Projects with the most KEVs'
+            )), width=6),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Graph(figure=line_fig), width=12),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Graph(figure=stacked_area_fig), width=12),
+        ]),
+        dbc.Row([
+            dbc.Col(dcc.Graph(figure=severity_bar_fig), width=12),
+        ]),
     ])
 ])
 
@@ -97,6 +187,8 @@ def create_stir_page(title):
     return html.Div([
         dbc.Container([
             html.H1(title, className="my-4"),
+            dcc.Graph(id='severity-bar-graph', figure=severity_bar_fig),
+            dcc.Graph(id='cvss-epss-scatter-plot', figure=scatter_fig)
         ])
     ])
 
@@ -200,7 +292,7 @@ def update_cve_database_table(n_clicks, n_submit, start_date, end_date, selected
     # Convert any non-supported types to strings
     filtered_df = convert_to_string(filtered_df)
 
-    # Determine height based on the number of rows (populate low search reasults accordingly)
+    # Determine height based on the number of rows (populate low search results accordingly)
     max_height = "500px"
     if len(filtered_df) <= 5:
         height = "auto"
