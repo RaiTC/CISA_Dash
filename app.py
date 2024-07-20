@@ -21,13 +21,9 @@ def convert_to_string(df):
 cisa_df = convert_to_string(cisa_df)
 
 # Calculate Summary Metrics
-total_cves = cisa_df.shape[0]
-high_severity_cves = cisa_df[cisa_df['CVSS3'] >= 7.0].shape[0]
-upcoming_due_dates = cisa_df[(cisa_df['dueDate'] <= pd.Timestamp.now() + pd.DateOffset(days=7)) & (cisa_df['dueDate'] >= pd.Timestamp.now())].shape[0]
-
-# Prepare data for bar chart
-top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
-top_vendors_df.columns = ['Vendor/Project', 'Count']
+total_kevs = cisa_df.shape[0]
+average_epss = cisa_df['EPSS'].mean()
+average_cvss = cisa_df['CVSS3'].mean()
 
 # Define severity ranges
 def categorize_severity(cvss):
@@ -49,8 +45,47 @@ cisa_df['Severity'] = cisa_df['CVSS3'].apply(categorize_severity)
 severity_counts = cisa_df['Severity'].value_counts().reset_index()
 severity_counts.columns = ['Severity', 'Count']
 
-# Create bar graph
-severity_colors = {'Critical': 'red', 'High': 'orange', 'Medium': 'yellow', 'Low': 'blue'}
+# KEVs over time (Monthly)
+kevs_over_time = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).size().reset_index(name='Count')
+kevs_over_time['dateAdded'] = kevs_over_time['dateAdded'].dt.to_timestamp()
+
+# Prepare data for top 5 vendors/products with KEVs
+top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
+top_vendors_df.columns = ['Vendor/Project', 'Count']
+
+# Define colors for severity levels
+severity_colors = {'Critical': 'darkred', 'High': 'darkorange', 'Medium': 'yellow', 'Low': 'blue'}
+
+# KEVs by Severity (Pie Chart)
+severity_pie_fig = px.pie(
+    severity_counts,
+    names='Severity',
+    values='Count',
+    title='KEVs by Severity',
+    color='Severity',
+    color_discrete_map=severity_colors,
+    hole=0.4
+)
+
+# KEVs Over Time (Line Chart)
+kevs_over_time_fig = px.line(
+    kevs_over_time,
+    x='dateAdded',
+    y='Count',
+    title='Number of KEVs Added Over Time',
+    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'}
+)
+
+# Top 5 Vendors/Products with KEVs (Bar Chart)
+top_vendors_fig = px.bar(
+    top_vendors_df,
+    x='Vendor/Project',
+    y='Count',
+    title='Top 5 Vendors/Products with KEVs',
+    labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of KEVs'}
+)
+
+# Create bar graph for severity
 severity_bar_fig = px.bar(
     severity_counts,
     x='Severity',
@@ -61,7 +96,6 @@ severity_bar_fig = px.bar(
     color='Severity',
     color_discrete_map=severity_colors
 )
-
 severity_bar_fig.update_traces(textposition='outside')
 
 # Create a new column to categorize CVEs for the scatter plot
@@ -72,7 +106,7 @@ def highlight_high_severity(row):
 
 cisa_df['Highlight'] = cisa_df.apply(highlight_high_severity, axis=1)
 
-# Create scatter plot
+# CVSS vs EPSS Scatter Plot
 scatter_fig = px.scatter(
     cisa_df,
     x='CVSS3',
@@ -85,70 +119,111 @@ scatter_fig = px.scatter(
 
 scatter_fig.update_layout(legend_title_text='Category')
 
-# Create line graph for KEVs added over time
-kevs_added_over_time = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).size().reset_index(name='Count')
-kevs_added_over_time['dateAdded'] = kevs_added_over_time['dateAdded'].dt.to_timestamp()
+# Ensure CVSS3 and EPSS columns are numeric
+cisa_df['CVSS3'] = pd.to_numeric(cisa_df['CVSS3'], errors='coerce')
+cisa_df['EPSS'] = pd.to_numeric(cisa_df['EPSS'], errors='coerce')
 
-line_fig = px.line(
-    kevs_added_over_time,
-    x='dateAdded',
-    y='Count',
-    title='Number of KEVs Added Over Time',
-    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'}
+# Calculate the time to remediation for each KEV
+cisa_df['time_to_remediate'] = (cisa_df['dueDate'] - cisa_df['dateAdded']).dt.days
+
+# Risk Heatmap
+heatmap_fig = px.density_heatmap(
+    cisa_df,
+    x='CVSS3',
+    y='EPSS',
+    nbinsx=10,
+    nbinsy=10,
+    title='Risk Heatmap (CVSS vs EPSS)',
+    labels={'CVSS3': 'CVSS Base Score', 'EPSS': 'EPSS Score'}
 )
 
-# Create stacked area chart for cumulative count of KEVs over time by severity
-cumulative_kevs = cisa_df.groupby([cisa_df['dateAdded'].dt.to_period('M'), 'Severity']).size().reset_index(name='Count')
-cumulative_kevs['dateAdded'] = cumulative_kevs['dateAdded'].dt.to_timestamp()
-cumulative_kevs = cumulative_kevs.sort_values(by='dateAdded')
+# Risk Comparison by Vendor/Project (Radar Chart)
+radar_data = cisa_df.groupby('vendorProject')[['CVSS3', 'EPSS']].mean().reset_index()
+radar_fig = px.line_polar(
+    radar_data,
+    r='CVSS3',
+    theta='vendorProject',
+    line_close=True,
+    title='Risk Comparison by Vendor/Project (CVSS)',
+    labels={'CVSS3': 'Average CVSS'}
+)
 
-stacked_area_fig = px.area(
-    cumulative_kevs,
+radar_epss_fig = px.line_polar(
+    radar_data,
+    r='EPSS',
+    theta='vendorProject',
+    line_close=True,
+    title='Risk Comparison by Vendor/Project (EPSS)',
+    labels={'EPSS': 'Average EPSS'}
+)
+
+# Time to Remediation (Box Plot)
+remediation_fig = px.box(
+    cisa_df,
+    x='Severity',
+    y='time_to_remediate',
+    title='Time to Remediation by Severity',
+    labels={'Severity': 'Severity Level', 'time_to_remediate': 'Time to Remediate (days)'}
+)
+
+# Prepare data for Severity Trend Over Time
+severity_trend = cisa_df.groupby([cisa_df['dateAdded'].dt.to_period('M'), 'Severity']).size().reset_index(name='Count')
+severity_trend['dateAdded'] = severity_trend['dateAdded'].dt.to_timestamp()
+
+# Severity Trend Over Time (Stacked Area Chart)
+severity_trend_fig = px.area(
+    severity_trend,
     x='dateAdded',
     y='Count',
     color='Severity',
-    title='Cumulative Count of KEVs Over Time by Severity',
-    labels={'dateAdded': 'Date Added', 'Count': 'Cumulative Count'},
+    title='Severity Trend Over Time',
+    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'},
     color_discrete_map=severity_colors
+)
+
+# Prepare data for Average EPSS Score Over Time
+average_epss_trend = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M'))['EPSS'].mean().reset_index()
+average_epss_trend['dateAdded'] = average_epss_trend['dateAdded'].dt.to_timestamp()
+
+# Average EPSS Score Over Time (Line Chart)
+average_epss_trend_fig = px.line(
+    average_epss_trend,
+    x='dateAdded',
+    y='EPSS',
+    title='Average EPSS Score Over Time',
+    labels={'dateAdded': 'Date Added', 'EPSS': 'Average EPSS Score'}
 )
 
 # Layout for the Dashboard page
 dashboard_layout = html.Div([
     dbc.Container([
-        html.H1("Vulnerability Management Dashboard", className="my-4"),
+        html.H1("Summary Metrics", className="my-4"),
         dbc.Row([
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.H5("Total CVEs", className="card-title"),
-                    html.P(f"{total_cves}", className="card-text")
+                    html.H5("Total KEVs", className="card-title"),
+                    html.P(f"{total_kevs}", className="card-text")
                 ])
             ]), width=3),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.H5("High Severity CVEs", className="card-title"),
-                    html.P(f"{high_severity_cves}", className="card-text")
+                    html.H5("Average EPSS Score", className="card-title"),
+                    html.P(f"{average_epss:.2f}", className="card-text")
                 ])
             ]), width=3),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
-                    html.H5("Upcoming Due Dates", className="card-title"),
-                    html.P(f"{upcoming_due_dates}", className="card-text")
+                    html.H5("Average CVSS Score", className="card-title"),
+                    html.P(f"{average_cvss:.2f}", className="card-text")
                 ])
             ]), width=3),
         ]),
         dbc.Row([
-            dbc.Col(dcc.Graph(figure=px.bar(
-                top_vendors_df,
-                x='Vendor/Project', y='Count',
-                labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of CVEs'},
-                title='Top 5 Vendors/Projects with the most KEVs'
-            )), width=6),
+            dbc.Col(dcc.Graph(figure=severity_pie_fig), width=6),
+            dbc.Col(dcc.Graph(figure=top_vendors_fig), width=6),
         ]),
         dbc.Row([
-            dbc.Col(dcc.Graph(figure=line_fig), width=12),
-        ]),
-        dbc.Row([
-            dbc.Col(dcc.Graph(figure=stacked_area_fig), width=12),
+            dbc.Col(dcc.Graph(figure=kevs_over_time_fig), width=12),
         ]),
         dbc.Row([
             dbc.Col(dcc.Graph(figure=severity_bar_fig), width=12),
@@ -156,10 +231,10 @@ dashboard_layout = html.Div([
     ])
 ])
 
-# Layout for the CVE Database page
-cve_database_layout = html.Div([
+# Layout for the KEV Database page
+kev_database_layout = html.Div([
     dbc.Container([
-        html.H1("CVE Database", className="my-4"),
+        html.H1("KEV Database", className="my-4"),
         dcc.DatePickerRange(
             id='date-picker-range',
             start_date=cisa_df['dateAdded'].min().date(),
@@ -174,11 +249,11 @@ cve_database_layout = html.Div([
             placeholder='Filter by Vendor/Project'
         ),
         html.Br(),
-        dbc.Input(id="search-input", placeholder="Search CVEs...", type="text", debounce=True),
+        dbc.Input(id="search-input", placeholder="Search KEVs...", type="text", debounce=True),
         html.Br(),
         dbc.Button("Search", id="search-button", color="primary", className="me-1"),
         html.Br(), html.Br(),
-        html.Div(id='cve-database-table')
+        html.Div(id='kev-database-table')
     ])
 ])
 
@@ -193,20 +268,45 @@ def create_stir_page(title):
     ])
 
 severity_layout = create_stir_page("Severity")
-trends_layout = create_stir_page("Trends")
 impact_layout = create_stir_page("Impact")
-risks_layout = create_stir_page("Risks")
+
+def create_trends_layout():
+    return html.Div([
+        dbc.Container([
+            html.H1("Trends", className="my-4"),
+            dcc.Graph(id='kevs-over-time', figure=kevs_over_time_fig),
+            dcc.Graph(id='severity-trend', figure=severity_trend_fig),
+            dcc.Graph(id='average-epss-trend', figure=average_epss_trend_fig),
+        ])
+    ])
+
+trends_layout = create_trends_layout()
+
+def create_risks_layout():
+    return html.Div([
+        dbc.Container([
+            html.H1("Risks", className="my-4"),
+            dcc.Graph(id='risk-heatmap', figure=heatmap_fig),
+            dbc.Row([
+                dbc.Col(dcc.Graph(id='risk-radar-cvss', figure=radar_fig), width=6),
+                dbc.Col(dcc.Graph(id='risk-radar-epss', figure=radar_epss_fig), width=6)
+            ]),
+            dcc.Graph(id='time-to-remediation', figure=remediation_fig),
+        ])
+    ])
+
+risks_layout = create_risks_layout()
 
 # Define the app layout with a navigation bar
 app.layout = html.Div([
     dbc.NavbarSimple(
-        brand="Vulnerability Management Dashboard",
+        brand="Known Vulnerabilities Dashboard",
         brand_href="/",
         color="primary",
         dark=True,
         children=[
             dbc.NavItem(dbc.NavLink("Dashboard", href="/")),
-            dbc.NavItem(dbc.NavLink("CVE Database", href="/cve-database")),
+            dbc.NavItem(dbc.NavLink("KEV Database", href="/kev-database")),
             dbc.DropdownMenu(
                 label="STIR",
                 children=[
@@ -227,8 +327,8 @@ app.layout = html.Div([
 # Callbacks to update the page content
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def display_page(pathname):
-    if pathname == '/cve-database':
-        return cve_database_layout
+    if pathname == '/kev-database':
+        return kev_database_layout
     elif pathname == '/stir/severity':
         return severity_layout
     elif pathname == '/stir/trends':
@@ -257,9 +357,9 @@ column_rename_dict = {
     "CVSS3": "CVSS Base Score"
 }
 
-# Callback to update the CVE database table
+# Callback to update the KEV database table
 @app.callback(
-    Output('cve-database-table', 'children'),
+    Output('kev-database-table', 'children'),
     [
         Input('search-button', 'n_clicks'),
         Input('search-input', 'n_submit'),
@@ -269,7 +369,7 @@ column_rename_dict = {
     ],
     State('search-input', 'value')
 )
-def update_cve_database_table(n_clicks, n_submit, start_date, end_date, selected_vendors, search_value):
+def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected_vendors, search_value):
     filtered_df = cisa_df.copy()
     
     # Filter by date
