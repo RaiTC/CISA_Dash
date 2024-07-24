@@ -11,19 +11,16 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_
 # Fetch and process data
 cisa_df = get_latest_data()
 
+# Ensure dateAdded is a datetime column
+cisa_df['dateAdded'] = pd.to_datetime(cisa_df['dateAdded'])
+
+# ====== Helper Functions ======
 # Convert non-supported types (like lists, CWEs) to strings
 def convert_to_string(df):
     for col in df.columns:
         if df[col].apply(lambda x: isinstance(x, (list, dict))).any():
             df[col] = df[col].apply(str)
     return df
-
-cisa_df = convert_to_string(cisa_df)
-
-# Calculate Summary Metrics
-total_kevs = cisa_df.shape[0]
-average_epss = cisa_df['EPSS'].mean()
-average_cvss = cisa_df['CVSS3'].mean()
 
 # Define severity ranges
 def categorize_severity(cvss):
@@ -39,24 +36,54 @@ def categorize_severity(cvss):
         return "Critical"
     return "N/A"
 
+cisa_df = convert_to_string(cisa_df)
 cisa_df['Severity'] = cisa_df['CVSS3'].apply(categorize_severity)
-
-# Count KEVs by severity
-severity_counts = cisa_df['Severity'].value_counts().reset_index()
-severity_counts.columns = ['Severity', 'Count']
-
-# KEVs over time (Monthly)
-kevs_over_time = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).size().reset_index(name='Count')
-kevs_over_time['dateAdded'] = kevs_over_time['dateAdded'].dt.to_timestamp()
-
-# Prepare data for top 5 vendors/products with KEVs
-top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(5).reset_index()
-top_vendors_df.columns = ['Vendor/Project', 'Count']
-
-# Define colors for severity levels
 severity_colors = {'Critical': 'darkred', 'High': 'darkorange', 'Medium': 'yellow', 'Low': 'blue'}
 
+# Calculate combined risk score as the sum of CVSS3 and EPSS
+cisa_df['CombinedRisk'] = cisa_df['CVSS3'] + cisa_df['EPSS']
+
+# Calculate Summary Metrics
+total_kevs = cisa_df.shape[0]
+average_epss = cisa_df['EPSS'].mean()
+average_cvss = cisa_df['CVSS3'].mean()
+
+# Risk by Vendor DataFrame
+risk_by_vendor_df = cisa_df.groupby('vendorProject').agg({'CombinedRisk': 'mean'}).reset_index()
+
+# Top 5 vendors/projects with the highest average combined risk scores
+top_vendors = risk_by_vendor_df.nlargest(5, 'CombinedRisk')
+
+# Preset to show highest 2, middle 2, and least 2 vendors/projects for Risks
+def get_preset_vendors(df):
+    sorted_df = df.sort_values('CombinedRisk', ascending=False)
+    n = len(sorted_df)
+    if n >= 6:
+        highest_2 = sorted_df.head(2)
+        middle_2 = sorted_df.iloc[(n//2)-1:(n//2)+1]
+        least_2 = sorted_df.tail(2)
+        return pd.concat([highest_2, middle_2, least_2])
+    else:
+        return sorted_df
+
+preset_vendors_df = get_preset_vendors(risk_by_vendor_df)
+
+# ====== Data Graphs ======
+# * Dashboard Page *
+# KEVs Risk Trend Over Time
+risk_trend_df = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).agg({'CombinedRisk': 'mean'}).reset_index()
+risk_trend_df['dateAdded'] = risk_trend_df['dateAdded'].dt.to_timestamp()
+risk_trend_fig = px.line(
+    risk_trend_df,
+    x='dateAdded',
+    y='CombinedRisk',
+    title='KEVs Risk Trend Over Time',
+    labels={'dateAdded': 'Date Added', 'CombinedRisk': 'Average Combined Risk Score'}
+)
+
 # KEVs by Severity (Pie Chart)
+severity_counts = cisa_df['Severity'].value_counts().reset_index()
+severity_counts.columns = ['Severity', 'Count']
 severity_pie_fig = px.pie(
     severity_counts,
     names='Severity',
@@ -66,26 +93,7 @@ severity_pie_fig = px.pie(
     color_discrete_map=severity_colors,
     hole=0.4
 )
-
-# KEVs Over Time (Line Chart)
-kevs_over_time_fig = px.line(
-    kevs_over_time,
-    x='dateAdded',
-    y='Count',
-    title='Number of KEVs Added Over Time',
-    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'}
-)
-
-# Top 5 Vendors/Products with KEVs (Bar Chart)
-top_vendors_fig = px.bar(
-    top_vendors_df,
-    x='Vendor/Project',
-    y='Count',
-    title='Top 5 Vendors/Products with KEVs',
-    labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of KEVs'}
-)
-
-# Create bar graph for severity
+# KEVs by Severity (Bar Chart)
 severity_bar_fig = px.bar(
     severity_counts,
     x='Severity',
@@ -98,15 +106,32 @@ severity_bar_fig = px.bar(
 )
 severity_bar_fig.update_traces(textposition='outside')
 
-# Create a new column to categorize CVEs for the scatter plot
+# Top 10 Vendors/Products with KEVs (Bar Chart)
+top_vendors_df = cisa_df['vendorProject'].value_counts().nlargest(10).reset_index()
+top_vendors_df.columns = ['Vendor/Project', 'Count']
+top_vendors_fig = px.bar(
+    top_vendors_df,
+    x='Vendor/Project',
+    y='Count',
+    title='Top 10 Vendors/Products by KEVs',
+    labels={'Vendor/Project': 'Vendor/Project', 'Count': 'Number of KEVs'}
+)
+
+# * Severity Page *
+# Top 10 most severe CVEs
+top_10_cves = cisa_df.nlargest(10, 'CVSS3')[['cveID', 'vulnerabilityName', 'CVSS3']]
+severity_table = dash_table.DataTable(
+    data=top_10_cves.to_dict('records'),
+    columns=[{"name": i, "id": i} for i in top_10_cves.columns]
+)
+
+# CVSS vs EPSS Scatter Plot
 def highlight_high_severity(row):
     if row['Severity'] in ['High', 'Critical'] and row['EPSS'] > 0.5:
         return 'High Severity'
     return 'Other'
 
 cisa_df['Highlight'] = cisa_df.apply(highlight_high_severity, axis=1)
-
-# CVSS vs EPSS Scatter Plot
 scatter_fig = px.scatter(
     cisa_df,
     x='CVSS3',
@@ -116,61 +141,12 @@ scatter_fig = px.scatter(
     labels={'CVSS3': 'CVSS Base Score', 'EPSS': 'EPSS Score'},
     hover_data=['cveID', 'vulnerabilityName']
 )
-
 scatter_fig.update_layout(legend_title_text='Category')
 
-# Ensure CVSS3 and EPSS columns are numeric
-cisa_df['CVSS3'] = pd.to_numeric(cisa_df['CVSS3'], errors='coerce')
-cisa_df['EPSS'] = pd.to_numeric(cisa_df['EPSS'], errors='coerce')
-
-# Calculate the time to remediation for each KEV
-cisa_df['time_to_remediate'] = (cisa_df['dueDate'] - cisa_df['dateAdded']).dt.days
-
-# Risk Heatmap
-heatmap_fig = px.density_heatmap(
-    cisa_df,
-    x='CVSS3',
-    y='EPSS',
-    nbinsx=10,
-    nbinsy=10,
-    title='Risk Heatmap (CVSS vs EPSS)',
-    labels={'CVSS3': 'CVSS Base Score', 'EPSS': 'EPSS Score'}
-)
-
-# Risk Comparison by Vendor/Project (Radar Chart)
-radar_data = cisa_df.groupby('vendorProject')[['CVSS3', 'EPSS']].mean().reset_index()
-radar_fig = px.line_polar(
-    radar_data,
-    r='CVSS3',
-    theta='vendorProject',
-    line_close=True,
-    title='Risk Comparison by Vendor/Project (CVSS)',
-    labels={'CVSS3': 'Average CVSS'}
-)
-
-radar_epss_fig = px.line_polar(
-    radar_data,
-    r='EPSS',
-    theta='vendorProject',
-    line_close=True,
-    title='Risk Comparison by Vendor/Project (EPSS)',
-    labels={'EPSS': 'Average EPSS'}
-)
-
-# Time to Remediation (Box Plot)
-remediation_fig = px.box(
-    cisa_df,
-    x='Severity',
-    y='time_to_remediate',
-    title='Time to Remediation by Severity',
-    labels={'Severity': 'Severity Level', 'time_to_remediate': 'Time to Remediate (days)'}
-)
-
-# Prepare data for Severity Trend Over Time
+# * Trends Page *
+# Severity Trend Over Time (Stacked Area Chart)
 severity_trend = cisa_df.groupby([cisa_df['dateAdded'].dt.to_period('M'), 'Severity']).size().reset_index(name='Count')
 severity_trend['dateAdded'] = severity_trend['dateAdded'].dt.to_timestamp()
-
-# Severity Trend Over Time (Stacked Area Chart)
 severity_trend_fig = px.area(
     severity_trend,
     x='dateAdded',
@@ -181,11 +157,9 @@ severity_trend_fig = px.area(
     color_discrete_map=severity_colors
 )
 
-# Prepare data for Average EPSS Score Over Time
+# Average EPSS Score Over Time (Line Chart)
 average_epss_trend = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M'))['EPSS'].mean().reset_index()
 average_epss_trend['dateAdded'] = average_epss_trend['dateAdded'].dt.to_timestamp()
-
-# Average EPSS Score Over Time (Line Chart)
 average_epss_trend_fig = px.line(
     average_epss_trend,
     x='dateAdded',
@@ -194,7 +168,95 @@ average_epss_trend_fig = px.line(
     labels={'dateAdded': 'Date Added', 'EPSS': 'Average EPSS Score'}
 )
 
-# Layout for the Dashboard page
+# KEVs Over Time (Line Chart)
+kevs_over_time = cisa_df.groupby(cisa_df['dateAdded'].dt.to_period('M')).size().reset_index(name='Count')
+kevs_over_time['dateAdded'] = kevs_over_time['dateAdded'].dt.to_timestamp()
+kevs_over_time_fig = px.line(
+    kevs_over_time,
+    x='dateAdded',
+    y='Count',
+    title='Number of KEVs Added Over Time',
+    labels={'dateAdded': 'Date Added', 'Count': 'Number of KEVs'}
+)
+
+# * Impact Page *
+# Top products by impact
+product_impact = cisa_df.groupby('product').agg({'CVSS3': 'mean'}).reset_index().nlargest(10, 'CVSS3')
+product_impact_bar = px.bar(
+    product_impact, 
+    x='product', 
+    y='CVSS3', 
+    title='Top Products by Impact', 
+    labels={'product': 'Product', 'CVSS3': 'Average CVSS Base Score'}
+)
+
+# Impact of CVEs with Known Ransomware Use
+ransomware_impact = cisa_df.groupby('knownRansomwareCampaignUse').agg({'CVSS3': 'mean'}).reset_index()
+ransomware_impact_bar = px.bar(
+    ransomware_impact, 
+    x='knownRansomwareCampaignUse', 
+    y='CVSS3', 
+    title='Impact of CVEs with Known Ransomware Use', 
+    labels={'knownRansomwareCampaignUse': 'Known Ransomware Use', 'CVSS3': 'Average CVSS Base Score'}
+)
+
+# Total Impact by Vendor
+vendor_impact = cisa_df.groupby('vendorProject').agg({'CVSS3': 'sum'}).reset_index()
+vendor_impact_bubble = px.scatter(
+    vendor_impact, 
+    x='vendorProject', 
+    y='CVSS3', 
+    size='CVSS3', 
+    title='Total Impact by Vendor', 
+    labels={'vendorProject': 'Vendor/Project', 'CVSS3': 'Total CVSS Base Score'}
+)
+
+# * Risk Page *
+# High-Risk CVEs by Vendor
+high_risk_cves = cisa_df[cisa_df['CVSS3'] >= 7].groupby('vendorProject').size().reset_index(name='count')
+high_risk_cves_bar = px.bar(
+    high_risk_cves, 
+    x='vendorProject', 
+    y='count', 
+    title='High-Risk CVEs by Vendor', 
+    labels={'vendorProject': 'Vendor/Project', 'count': 'Number of High-Risk CVEs'}
+)
+
+# Risk Assessment by Product
+cisa_df['RiskLevel'] = cisa_df['CVSS3'].apply(lambda x: 'Critical' if x >= 9 else ('High' if x >= 7 else ('Medium' if x >= 4 else 'Low')))
+product_risk = cisa_df.pivot_table(index='product', columns='RiskLevel', values='CVSS3', aggfunc='size', fill_value=0)
+product_risk_heatmap = px.imshow(
+    product_risk, 
+    labels=dict(x="Risk Level", y="Product", color="Count"), 
+    title='Risk Assessment by Product'
+)
+
+# Vendor Risk Profile
+vendor_risk_profile = cisa_df.groupby('vendorProject').agg(averageCVSS=('CVSS3', 'mean'), highRiskCount=('CVSS3', lambda x: (x >= 7).sum())).reset_index()
+vendor_risk_profile.columns = ['vendorProject', 'averageCVSS', 'highRiskCount']
+vendor_risk_radar = px.line_polar(
+    vendor_risk_profile,
+    r='averageCVSS',
+    theta='vendorProject',
+    line_close=True,
+    title='Vendor Risk Profile (Average CVSS and High-Risk CVE Count)',
+    labels={'averageCVSS': 'Average CVSS', 'highRiskCount': 'High-Risk CVE Count'}
+)
+
+# Risk by Vendor (Horizontal Bar Chart)
+risk_by_vendor_fig = px.bar(
+    preset_vendors_df,
+    y='vendorProject',
+    x='CombinedRisk',
+    title='Risk by Vendor',
+    labels={'vendorProject': 'Vendor/Project', 'CombinedRisk': 'Average Combined Risk Score'},
+    text='CombinedRisk',
+    orientation='h'
+)
+risk_by_vendor_fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+
+# ====== Layouts ======
+# Dashboard layout
 dashboard_layout = html.Div([
     dbc.Container([
         html.H1("Summary Metrics", className="my-4"),
@@ -231,7 +293,7 @@ dashboard_layout = html.Div([
     ])
 ])
 
-# Layout for the KEV Database page
+# KEV Database layout
 kev_database_layout = html.Div([
     dbc.Container([
         html.H1("KEV Database", className="my-4"),
@@ -257,45 +319,46 @@ kev_database_layout = html.Div([
     ])
 ])
 
-# Layout for the STIR (Severity, Trends, Impact, and Risk) pages
-def create_stir_page(title):
-    return html.Div([
+# STIR Page layout
+def create_stir_page(title, graph1, graph2, table=None):
+    elements = [
         dbc.Container([
             html.H1(title, className="my-4"),
-            dcc.Graph(id='severity-bar-graph', figure=severity_bar_fig),
-            dcc.Graph(id='cvss-epss-scatter-plot', figure=scatter_fig)
+            dcc.Graph(figure=graph1),
+            dcc.Graph(figure=graph2),
         ])
+    ]
+    if table:
+        elements.append(html.Div([html.H3("Top 10 Most Severe CVEs"), table]))
+    return html.Div(elements)
+
+severity_layout = create_stir_page("Severity", severity_bar_fig, scatter_fig, severity_table)
+impact_layout = html.Div([
+    dbc.Container([
+        html.H1("Impact", className="my-4"),
+        dcc.Graph(figure=product_impact_bar),
+        dcc.Graph(figure=ransomware_impact_bar),
+        dcc.Graph(figure=vendor_impact_bubble)
     ])
+])
 
-severity_layout = create_stir_page("Severity")
-impact_layout = create_stir_page("Impact")
-
-def create_trends_layout():
-    return html.Div([
-        dbc.Container([
-            html.H1("Trends", className="my-4"),
-            dcc.Graph(id='kevs-over-time', figure=kevs_over_time_fig),
-            dcc.Graph(id='severity-trend', figure=severity_trend_fig),
-            dcc.Graph(id='average-epss-trend', figure=average_epss_trend_fig),
-        ])
+trends_layout = html.Div([
+    dbc.Container([
+        html.H1("Trends", className="my-4"),
+        dcc.Graph(figure=kevs_over_time_fig),
+        dcc.Graph(figure=severity_trend_fig),
+        dcc.Graph(figure=average_epss_trend_fig),
     ])
+])
 
-trends_layout = create_trends_layout()
-
-def create_risks_layout():
-    return html.Div([
-        dbc.Container([
-            html.H1("Risks", className="my-4"),
-            dcc.Graph(id='risk-heatmap', figure=heatmap_fig),
-            dbc.Row([
-                dbc.Col(dcc.Graph(id='risk-radar-cvss', figure=radar_fig), width=6),
-                dbc.Col(dcc.Graph(id='risk-radar-epss', figure=radar_epss_fig), width=6)
-            ]),
-            dcc.Graph(id='time-to-remediation', figure=remediation_fig),
-        ])
+risks_layout = html.Div([
+    dbc.Container([
+        html.H1("Risks", className="my-4"),
+        dcc.Graph(figure=high_risk_cves_bar),
+        dcc.Graph(figure=product_risk_heatmap),
+        dcc.Graph(figure=vendor_risk_radar)
     ])
-
-risks_layout = create_risks_layout()
+])
 
 # Define the app layout with a navigation bar
 app.layout = html.Div([
@@ -324,7 +387,8 @@ app.layout = html.Div([
     html.Div(id='page-content')
 ])
 
-# Callbacks to update the page content
+# ====== Callbacks ======
+# Page content
 @app.callback(Output('page-content', 'children'), [Input('url', 'pathname')])
 def display_page(pathname):
     if pathname == '/kev-database':
@@ -340,24 +404,7 @@ def display_page(pathname):
     else:
         return dashboard_layout
 
-# Define a dictionary to rename columns
-column_rename_dict = {
-    "cveID": "CVE ID",
-    "vendorProject": "Vendor/Project",
-    "product": "Product",
-    "vulnerabilityName": "Vulnerability Name",
-    "dateAdded": "Date Added",
-    "shortDescription": "Description",
-    "requiredAction": "Required Action",
-    "dueDate": "Due Date",
-    "knownRansomwareCampaignUse": "Known Ransomware Use",
-    "notes": "Notes",
-    "cwes": "CWEs",
-    "EPSS": "EPSS",
-    "CVSS3": "CVSS Base Score"
-}
-
-# Callback to update the KEV database table
+# KEV Database
 @app.callback(
     Output('kev-database-table', 'children'),
     [
@@ -386,20 +433,36 @@ def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected
             filtered_df.apply(lambda row: row.astype(str).str.contains(search_value, case=False).any(), axis=1)
         ]
     
+    # ====== Adjustments ======
     # Rename columns
+    column_rename_dict = {
+        "cveID": "CVE ID",
+        "vendorProject": "Vendor/Project",
+        "product": "Product",
+        "vulnerabilityName": "Vulnerability Name",
+        "dateAdded": "Date Added",
+        "shortDescription": "Description",
+        "requiredAction": "Required Action",
+        "dueDate": "Due Date",
+        "knownRansomwareCampaignUse": "Known Ransomware Use",
+        "notes": "Notes",
+        "cwes": "CWEs",
+        "EPSS": "EPSS",
+        "CVSS3": "CVSS Base Score"
+    }
     filtered_df = filtered_df.rename(columns=column_rename_dict)
     
     # Convert any non-supported types to strings
     filtered_df = convert_to_string(filtered_df)
 
-    # Determine height based on the number of rows (populate low search results accordingly)
+    # Determine height based on the number of rows
     max_height = "500px"
     if len(filtered_df) <= 5:
         height = "auto"
     else:
         height = max_height
     
-    # Create table with auto width adjustment using dash.dash_table.DataTable
+    # Create table with auto width adjustment
     return dash_table.DataTable(
         data=filtered_df.to_dict('records'),
         columns=[{"name": i, "id": i} for i in filtered_df.columns],
@@ -413,8 +476,6 @@ def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected
             'minWidth': '100px',
             'maxWidth': '150px',
         },
-
-        # Wider boxes for larger data entry
         style_data_conditional=[
             {
                 'if': {'column_id': 'Description'},
@@ -444,9 +505,32 @@ def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected
                 for column, value in row.items()
             } for row in filtered_df.to_dict('records')
         ],
-        tooltip_duration=None,  # Keep tooltips open until mouseout
-        page_size=15  # Number of rows per page
+        tooltip_duration=None,
+        page_size=15
     )
+
+# Callback to update the risk by vendor bar chart
+@app.callback(
+    Output('risk-by-vendor', 'figure'),
+    [Input('vendor-project-dropdown', 'value')]
+)
+def update_risk_by_vendor(selected_vendors):
+    if selected_vendors:
+        filtered_df = risk_by_vendor_df[risk_by_vendor_df['vendorProject'].isin(selected_vendors)]
+    else:
+        filtered_df = preset_vendors_df
+
+    fig = px.bar(
+        filtered_df,
+        y='vendorProject',
+        x='CombinedRisk',
+        title='Risk by Vendor',
+        labels={'vendorProject': 'Vendor/Project', 'CombinedRisk': 'Average Combined Risk Score'},
+        text='CombinedRisk',
+        orientation='h'
+    )
+    fig.update_traces(texttemplate='%{text:.2f}', textposition='outside')
+    return fig
 
 if __name__ == '__main__':
     app.run_server(debug=True)

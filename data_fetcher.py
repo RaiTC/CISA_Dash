@@ -21,20 +21,37 @@ def fetch_cisa_data():
     response = requests.get(url)
     return response.json()
 
-def process_cisa_data(cisa_data):
+def process_cisa_data(cisa_data, cached_data):
     print("Processing CISA data...")
     vulnerabilities = cisa_data['vulnerabilities']
     df = pd.DataFrame(vulnerabilities)
     df['dateAdded'] = pd.to_datetime(df['dateAdded'])
     df['dueDate'] = pd.to_datetime(df['dueDate'])
 
-    # Fetch EPSS and CVSS scores for each CVE if not already available
-    if 'EPSS' not in df.columns:
-        df['EPSS'] = df['cveID'].apply(fetch_epss_score)
-    if 'CVSS3' not in df.columns:
-        df['CVSS3'] = df['cveID'].apply(fetch_cvss_base_score)
+    cached_cves = set(cached_data['cveID']) if cached_data is not None else set()
+    
+    # Identify new CVEs
+    new_cves = df[~df['cveID'].isin(cached_cves)].copy()
+    print(f"Found {len(new_cves)} new CVEs.")
+    
+    # Fetch EPSS and CVSS scores for new CVEs only
+    if not new_cves.empty:
+        new_cves['EPSS'] = new_cves['cveID'].apply(fetch_epss_score)
+        new_cves['CVSS3'] = new_cves['cveID'].apply(fetch_cvss_base_score)
 
-    return df
+        # Ensure None values are handled
+        new_cves['EPSS'] = new_cves['EPSS'].fillna(0)
+        new_cves['CVSS3'] = new_cves['CVSS3'].fillna(0)
+
+        # Combine new CVEs with cached data
+        if cached_data is not None:
+            combined_data = pd.concat([cached_data, new_cves], ignore_index=True)
+        else:
+            combined_data = new_cves
+    else:
+        combined_data = cached_data
+
+    return combined_data
 
 def fetch_epss_score(cve):
     print(f"Fetching EPSS score for {cve}...")
@@ -58,20 +75,14 @@ def fetch_cvss_base_score(cve):
             try:
                 cvss_metrics = data['vulnerabilities'][0]['cve']['metrics']
                 
-                # Check for CVSS v3.1 score
                 if 'cvssMetricV31' in cvss_metrics and len(cvss_metrics['cvssMetricV31']) > 0:
-                    base_score = cvss_metrics['cvssMetricV31'][0]['cvssData']['baseScore']
-                    return base_score
+                    return cvss_metrics['cvssMetricV31'][0]['cvssData']['baseScore']
                 
-                # Check for CVSS v3.0 score
                 elif 'cvssMetricV30' in cvss_metrics and len(cvss_metrics['cvssMetricV30']) > 0:
-                    base_score = cvss_metrics['cvssMetricV30'][0]['cvssData']['baseScore']
-                    return base_score
+                    return cvss_metrics['cvssMetricV30'][0]['cvssData']['baseScore']
                 
-                # Check for CVSS v2.0 score as a fallback
                 elif 'cvssMetricV2' in cvss_metrics and len(cvss_metrics['cvssMetricV2']) > 0:
-                    base_score = cvss_metrics['cvssMetricV2'][0]['cvssData']['baseScore']
-                    return base_score
+                    return cvss_metrics['cvssMetricV2'][0]['cvssData']['baseScore']
                 
             except (KeyError, ValueError) as e:
                 print(f"Error extracting CVSS base score for {cve}: {e}")
@@ -89,20 +100,22 @@ def load_cached_data():
                 data = json.load(file)
                 # Convert date strings back to datetime
                 for key in ['dateAdded', 'dueDate']:
-                    for idx in data['processed_data'][key]:
-                        data['processed_data'][key][idx] = pd.to_datetime(data['processed_data'][key][idx])
-                return data
+                    data['processed_data'][key] = {k: pd.to_datetime(v) for k, v in data['processed_data'][key].items()}
+                cached_data = pd.DataFrame(data['processed_data'])
+                return cached_data, data.get('catalogVersion', None)
         except json.JSONDecodeError as e:
             print(f"Error loading cached data: {e}")
             # Optionally, back up the corrupted cache file
             os.rename(CACHE_FILE, f"{CACHE_FILE}.bak")
-            return None
-    return None
+            return None, None
+    return None, None
 
 def save_cached_data(cisa_data, processed_data):
     print("Saving cached data...")
     if not os.path.exists(LEGACY_DIR):
         os.makedirs(LEGACY_DIR)
+    
+    # Backup old cache
     catalog_version = cisa_data['catalogVersion']
     legacy_file = os.path.join(LEGACY_DIR, f"KEV_{catalog_version.replace('.', '')}.json")
     if os.path.exists(CACHE_FILE):
@@ -114,7 +127,10 @@ def save_cached_data(cisa_data, processed_data):
     # Convert DataFrame to JSON-serializable format
     for col in processed_data.select_dtypes(['datetime']):
         processed_data[col] = processed_data[col].apply(lambda x: x.isoformat() if isinstance(x, pd.Timestamp) else x)
-
+    
+    # Convert NaN to None for numerical data
+    processed_data = processed_data.fillna(value=pd.NA).replace({pd.NA: None})
+    
     cisa_data['processed_data'] = processed_data.to_dict()
 
     # Write to a temporary file first and then rename to avoid partial writes
@@ -128,13 +144,16 @@ def save_cached_data(cisa_data, processed_data):
 def get_latest_data():
     print("Starting data fetching process...")
     cisa_data = fetch_cisa_data()
-    cached_data = load_cached_data()
-    if cached_data is None or cached_data['catalogVersion'] != cisa_data['catalogVersion']:
+    cached_data, cached_catalog_version = load_cached_data()
+    
+    if cached_data is None or cached_catalog_version != cisa_data['catalogVersion']:
         print("New data available. Updating cache...")
-        processed_data = process_cisa_data(cisa_data)
+        processed_data = process_cisa_data(cisa_data, cached_data)
         save_cached_data(cisa_data, processed_data)
         return processed_data
-    print("Using cached data...")
-    cached_df = pd.DataFrame(cached_data['processed_data'])
 
-    return cached_df
+    print("Using cached data...")
+    cached_data['dateAdded'] = pd.to_datetime(cached_data['dateAdded'])
+    cached_data['dueDate'] = pd.to_datetime(cached_data['dueDate'])
+
+    return cached_data
