@@ -9,6 +9,7 @@ from data_fetcher import get_latest_data, update_legacy_data
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+server = app.server
 
 # Update legacy data on startup
 update_legacy_data()
