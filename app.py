@@ -1,13 +1,17 @@
 import dash
 import dash_bootstrap_components as dbc
-from dash import dcc, html, Input, Output, State, dash_table, Patch
+from dash import dcc, html, Input, Output, State, dash_table
 import pandas as pd
 import plotly.express as px
-import plotly.io as pio
-from data_fetcher import get_latest_data
+import os
+import json
+from data_fetcher import get_latest_data, update_legacy_data
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
+
+# Update legacy data on startup
+update_legacy_data()
 
 # Fetch and process data
 cisa_df = get_latest_data()
@@ -68,7 +72,6 @@ top_5_severe_kevs_dict = top_5_severe_kevs.to_dict('records')
 
 # Severity count by vendor/project
 severity_by_vendor = cisa_df.groupby(['vendorProject', 'Severity']).size().reset_index(name='CVE Count')
-
 
 # ====== Data Graphs ======
 # * Dashboard Page *
@@ -393,6 +396,24 @@ kev_database_layout = html.Div([
     ])
 ])
 
+# Legacy layout
+def list_legacy_files():
+    files = os.listdir('Legacy')
+    return [{'label': file, 'value': file} for file in files if file.endswith('.json')]
+
+legacy_layout = html.Div([
+    dbc.Container([
+        html.H1("Legacy Data", className="my-4"),
+        dcc.Dropdown(
+            id='legacy-file-dropdown',
+            options=list_legacy_files(),
+            placeholder='Select a legacy file to view',
+        ),
+        html.Br(),
+        html.Div(id='legacy-file-content')
+    ])
+])
+
 # STIR Page layout
 def create_stir_page(title, graph1, graph2, table=None):
     elements = [
@@ -474,6 +495,7 @@ app.layout = html.Div([
                     [
                         dbc.NavItem(dbc.NavLink("Dashboard", href="/")),
                         dbc.NavItem(dbc.NavLink("KEV Database", href="/kev-database")),
+                        dbc.NavItem(dbc.NavLink("Legacy Data", href="/legacy")),
                         dbc.DropdownMenu(
                             label="STIR",
                             children=[
@@ -508,6 +530,8 @@ app.layout = html.Div([
 def display_page(pathname):
     if pathname == '/kev-database':
         return kev_database_layout
+    elif pathname == '/legacy':
+        return legacy_layout
     elif pathname == '/stir/severity':
         return severity_layout
     elif pathname == '/stir/trends':
@@ -632,6 +656,20 @@ def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected
         tooltip_duration=None,
         page_size=15
     )
+
+# Legacy Data page
+@app.callback(
+    Output('legacy-file-content', 'children'),
+    [Input('legacy-file-dropdown', 'value')]
+)
+def display_legacy_file_content(file_name):
+    if file_name:
+        file_path = os.path.join('Legacy', file_name)
+        if os.path.exists(file_path):
+            with open(file_path, 'r') as file:
+                content = json.load(file)
+            return html.Pre(json.dumps(content, indent=4))
+    return "Select a file to view its content."
 
 if __name__ == '__main__':
     app.run_server(debug=True)

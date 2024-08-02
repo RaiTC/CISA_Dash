@@ -6,6 +6,7 @@ from datetime import datetime
 import time
 import tempfile
 from dotenv import load_dotenv
+import subprocess
 
 # Load environment variables from .env file
 load_dotenv()
@@ -86,8 +87,8 @@ def fetch_cvss_base_score(cve):
                 
             except (KeyError, ValueError) as e:
                 print(f"Error extracting CVSS base score for {cve}: {e}")
-    else:
-        print(f"Error fetching data for {cve}: HTTP {response.status_code}")
+        else:
+            print(f"Error fetching data for {cve}: HTTP {response.status_code}")
     
     time.sleep(NVD_SLEEPTIME)  # NVD Recommendation
     return None
@@ -157,3 +158,20 @@ def get_latest_data():
     cached_data['dueDate'] = pd.to_datetime(cached_data['dueDate'])
 
     return cached_data
+
+def update_legacy_data():
+    repo_url = os.getenv("GITHUB_REPO_URL")
+    if not os.path.exists('Legacy'):
+        subprocess.run(['git', 'clone', repo_url, 'Legacy'], check=True)
+    else:
+        subprocess.run(['git', '-C', 'Legacy', 'pull'], check=True)
+
+# Automate the fetching process to run every 12 hours
+def automated_data_fetcher():
+    while True:
+        get_latest_data()
+        print("Data fetched and updated. Sleeping for 12 hours...")
+        time.sleep(43200)  # Sleep for 12 hours (12 * 60 * 60 seconds)
+
+if __name__ == "__main__":
+    automated_data_fetcher()
