@@ -161,10 +161,20 @@ def get_latest_data():
 
 def update_legacy_data():
     repo_url = os.getenv("GITHUB_REPO_URL")
-    if not os.path.exists('Legacy'):
-        subprocess.run(['git', 'clone', repo_url, 'Legacy'], check=True)
-    else:
-        subprocess.run(['git', '-C', 'Legacy', 'pull'], check=True)
+    try:
+        if not os.path.exists('Legacy'):
+            print("Cloning repository...")
+            subprocess.run(['git', 'clone', repo_url, 'Legacy'], check=True)
+        else:
+            print("Updating repository...")
+            current_branch = subprocess.check_output(['git', '-C', 'Legacy', 'rev-parse', '--abbrev-ref', 'HEAD']).strip().decode('utf-8')
+            print(f"Current branch: {current_branch}")
+            if current_branch != 'main':  # replace 'main' with your branch
+                subprocess.run(['git', '-C', 'Legacy', 'checkout', 'main'], check=True)
+            subprocess.run(['git', '-C', 'Legacy', 'pull'], check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error updating legacy data: {e}")
+        print(f"Command output: {e.output}")
 
 # Automate the fetching process to run every 12 hours
 def automated_data_fetcher():
