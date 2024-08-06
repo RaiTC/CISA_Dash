@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import datetime
 import time
 import tempfile
+import shutil
 from dotenv import load_dotenv
 import subprocess
 
@@ -15,6 +16,9 @@ CACHE_FILE = 'data_cache.json'
 LEGACY_DIR = 'Legacy'
 NVD_KEY = os.getenv("NVD_KEY")  # Access the API key from environment variables
 NVD_SLEEPTIME = 6  # NVD Recommended sleep time
+GITHUB_REPO_URL = os.getenv("GITHUB_REPO_URL")
+GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
 def fetch_cisa_data():
     print("Fetching data from CISA...")
@@ -139,8 +143,25 @@ def save_cached_data(cisa_data, processed_data):
         json.dump(cisa_data, tmp_file, indent=4)
         tmp_file_path = tmp_file.name
     
-    os.rename(tmp_file_path, CACHE_FILE)
+    shutil.move(tmp_file_path, CACHE_FILE)
     print("Cached data saved successfully.")
+    
+    # Commit and push changes to GitHub
+    commit_and_push_changes()
+
+def commit_and_push_changes():
+    try:
+        print("Committing and pushing changes to GitHub...")
+        # Add all changes
+        subprocess.run(['git', 'add', '.'], check=True)
+        # Commit changes
+        subprocess.run(['git', 'commit', '-m', 'Update data cache and legacy files'], check=True)
+        # Push changes
+        subprocess.run(['git', 'push', 'https://{}:{}@github.com/{}/{}'.format(GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_USERNAME, GITHUB_REPO_URL.split('/')[-1])], check=True)
+        print("Changes pushed to GitHub successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error committing and pushing changes: {e}")
+        print(f"Command output: {e.output}")
 
 def get_latest_data():
     print("Starting data fetching process...")
@@ -160,28 +181,18 @@ def get_latest_data():
     return cached_data
 
 def update_legacy_data():
-    repo_url = os.getenv("GITHUB_REPO_URL")
+    repo_url = GITHUB_REPO_URL
     try:
         if not os.path.exists('Legacy'):
             print("Cloning repository...")
             subprocess.run(['git', 'clone', repo_url, 'Legacy'], check=True)
         else:
             print("Updating repository...")
-            current_branch = subprocess.check_output(['git', '-C', 'Legacy', 'rev-parse', '--abbrev-ref', 'HEAD']).strip().decode('utf-8')
-            print(f"Current branch: {current_branch}")
-            if current_branch != 'main':  # replace 'main' with your branch
-                subprocess.run(['git', '-C', 'Legacy', 'checkout', 'main'], check=True)
             subprocess.run(['git', '-C', 'Legacy', 'pull'], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error updating legacy data: {e}")
         print(f"Command output: {e.output}")
 
-# Automate the fetching process to run every 12 hours
-def automated_data_fetcher():
-    while True:
-        get_latest_data()
-        print("Data fetched and updated. Sleeping for 12 hours...")
-        time.sleep(43200)  # Sleep for 12 hours (12 * 60 * 60 seconds)
-
 if __name__ == "__main__":
-    automated_data_fetcher()
+    update_legacy_data()
+    get_latest_data()
