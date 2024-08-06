@@ -19,6 +19,8 @@ NVD_SLEEPTIME = 6  # NVD Recommended sleep time
 GITHUB_REPO_URL = os.getenv("GITHUB_REPO_URL")
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_E = os.getenv("GITHUB_E")
+GITHUB_BRANCH = 'main'
 
 def fetch_cisa_data():
     print("Fetching data from CISA...")
@@ -152,12 +154,17 @@ def save_cached_data(cisa_data, processed_data):
 def commit_and_push_changes():
     try:
         print("Committing and pushing changes to GitHub...")
+        # Configure git
+        subprocess.run(['git', 'config', '--global', 'user.email', GITHUB_E], check=True)
+        subprocess.run(['git', 'config', '--global', 'user.name', GITHUB_USERNAME], check=True)
+        
         # Add all changes
         subprocess.run(['git', 'add', '.'], check=True)
         # Commit changes
         subprocess.run(['git', 'commit', '-m', 'Update data cache and legacy files'], check=True)
         # Push changes
-        subprocess.run(['git', 'push', 'https://{}:{}@github.com/{}/{}'.format(GITHUB_USERNAME, GITHUB_TOKEN, GITHUB_USERNAME, GITHUB_REPO_URL.split('/')[-1])], check=True)
+        repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{GITHUB_REPO_URL.split('https://')[1]}"
+        subprocess.run(['git', 'push', repo_url_with_token], check=True)
         print("Changes pushed to GitHub successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error committing and pushing changes: {e}")
@@ -182,13 +189,12 @@ def get_latest_data():
 
 def update_legacy_data():
     repo_url = GITHUB_REPO_URL
+    repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{repo_url.split('https://')[1]}"
     try:
-        if not os.path.exists('Legacy'):
-            print("Cloning repository...")
-            subprocess.run(['git', 'clone', repo_url, 'Legacy'], check=True)
-        else:
-            print("Updating repository...")
-            subprocess.run(['git', '-C', 'Legacy', 'pull'], check=True)
+        if os.path.exists('Legacy'):
+            shutil.rmtree('Legacy')
+        print("Cloning repository...")
+        subprocess.run(['git', 'clone', repo_url_with_token, 'Legacy'], check=True)
     except subprocess.CalledProcessError as e:
         print(f"Error updating legacy data: {e}")
         print(f"Command output: {e.output}")
