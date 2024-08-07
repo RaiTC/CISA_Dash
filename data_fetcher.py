@@ -149,19 +149,22 @@ def save_cached_data(cisa_data, processed_data):
     print("Cached data saved successfully.")
     
     # Commit and push changes to GitHub
-    commit_and_push_changes()
+    commit_and_push_changes([CACHE_FILE, legacy_file])
 
-def commit_and_push_changes():
+def commit_and_push_changes(files_to_commit):
     try:
         print("Committing and pushing changes to GitHub...")
         # Configure git
         subprocess.run(['git', 'config', '--global', 'user.email', GITHUB_E], check=True)
         subprocess.run(['git', 'config', '--global', 'user.name', GITHUB_USERNAME], check=True)
         
-        # Add all changes
-        subprocess.run(['git', 'add', '.'], check=True)
+        # Add specific files
+        for file in files_to_commit:
+            subprocess.run(['git', 'add', file], check=True)
+        
         # Commit changes
         subprocess.run(['git', 'commit', '-m', 'Update data cache and legacy files'], check=True)
+        
         # Push changes
         repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{GITHUB_REPO_URL.split('https://')[1]}"
         subprocess.run(['git', 'push', repo_url_with_token], check=True)
@@ -169,6 +172,7 @@ def commit_and_push_changes():
     except subprocess.CalledProcessError as e:
         print(f"Error committing and pushing changes: {e}")
         print(f"Command output: {e.output}")
+
 
 def get_latest_data():
     print("Starting data fetching process...")
@@ -191,13 +195,22 @@ def update_legacy_data():
     repo_url = GITHUB_REPO_URL
     repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{repo_url.split('https://')[1]}"
     try:
-        if os.path.exists('Legacy'):
-            shutil.rmtree('Legacy')
-        print("Cloning repository...")
-        subprocess.run(['git', 'clone', repo_url_with_token, 'Legacy'], check=True)
+        # If Legacy directory does not exist, clone the repo
+        if not os.path.exists('Legacy'):
+            print("Cloning repository...")
+            subprocess.run(['git', 'clone', repo_url_with_token, 'Legacy'], check=True)
+        else:
+            print("Updating Legacy directory...")
+            # Change to Legacy directory and pull latest changes
+            current_dir = os.getcwd()
+            os.chdir('Legacy')
+            subprocess.run(['git', 'fetch', '--all'], check=True)
+            subprocess.run(['git', 'reset', '--hard', 'origin/main'], check=True)
+            os.chdir(current_dir)
     except subprocess.CalledProcessError as e:
         print(f"Error updating legacy data: {e}")
         print(f"Command output: {e.output}")
+
 
 if __name__ == "__main__":
     update_legacy_data()
