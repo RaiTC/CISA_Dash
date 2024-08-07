@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.08.07",
-    "dateReleased": "2024-08-07T17:31:38.8549Z",
-    "count": 1143,
+    "catalogVersion": "2024.08.05",
+    "dateReleased": "2024-08-05T14:01:42.951Z",
+    "count": 1141,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -14836,32 +14836,6 @@
             "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2018-0824",
             "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-32113",
-            "vendorProject": "Apache",
-            "product": "OFBiz",
-            "vulnerabilityName": "Apache OFBiz Path Traversal Vulnerability",
-            "dateAdded": "2024-08-07",
-            "shortDescription": "Apache OFBiz contains a path traversal vulnerability that could allow for remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-08-28",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/thread/w6s60okgkxp2th1sr8vx0ndmgk68fqrd",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-36971",
-            "vendorProject": "Android",
-            "product": "Kernel",
-            "vulnerabilityName": "Android Kernel Remote Code Execution Vulnerability",
-            "dateAdded": "2024-08-07",
-            "shortDescription": "Android contains an unspecified vulnerability in the kernel that allows for remote code execution. This vulnerability resides in Linux Kernel and could impact other products, including but not limited to Android OS.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-08-28",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see:   https://source.android.com/docs/security/bulletin/2024-08-01,  https://lore.kernel.org/linux-cve-announce/20240610090330.1347021-2-lee@kernel.org/T/#u   ",
-            "cwes": []
         }
     ],
     "processed_data": {
@@ -16006,9 +15980,7 @@
             "1137": "CVE-2024-5217",
             "1138": "CVE-2024-4879",
             "1139": "CVE-2024-37085",
-            "1140": "CVE-2018-0824",
-            "1141": "CVE-2024-32113",
-            "1142": "CVE-2024-36971"
+            "1140": "CVE-2018-0824"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -17151,9 +17123,7 @@
             "1137": "ServiceNow",
             "1138": "ServiceNow",
             "1139": "VMware",
-            "1140": "Microsoft",
-            "1141": "Apache",
-            "1142": "Android"
+            "1140": "Microsoft"
         },
         "product": {
             "0": "FTA",
@@ -18296,9 +18266,7 @@
             "1137": "Utah, Vancouver, and Washington DC Now",
             "1138": "Utah, Vancouver, and Washington DC Now",
             "1139": "ESXi",
-            "1140": "Windows",
-            "1141": "OFBiz",
-            "1142": "Kernel"
+            "1140": "Windows"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -19441,9 +19409,7 @@
             "1137": "ServiceNow Incomplete List of Disallowed Inputs Vulnerability",
             "1138": "ServiceNow Improper Input Validation Vulnerability",
             "1139": "VMware ESXi Authentication Bypass Vulnerability",
-            "1140": "Microsoft COM for Windows Deserialization of Untrusted Data Vulnerability",
-            "1141": "Apache OFBiz Path Traversal Vulnerability",
-            "1142": "Android Kernel Remote Code Execution Vulnerability"
+            "1140": "Microsoft COM for Windows Deserialization of Untrusted Data Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -20586,9 +20552,7 @@
             "1137": "2024-07-29T00:00:00",
             "1138": "2024-07-29T00:00:00",
             "1139": "2024-07-30T00:00:00",
-            "1140": "2024-08-05T00:00:00",
-            "1141": "2024-08-07T00:00:00",
-            "1142": "2024-08-07T00:00:00"
+            "1140": "2024-08-05T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -21731,9 +21695,7 @@
             "1137": "ServiceNow Washington DC, Vancouver, and earlier Now Platform releases contain an incomplete list of disallowed inputs vulnerability in the GlideExpression script. An unauthenticated user could exploit this vulnerability to execute code remotely.",
             "1138": "ServiceNow Utah, Vancouver, and Washington DC Now releases contain a jelly template injection vulnerability in UI macros. An unauthenticated user could exploit this vulnerability to execute code remotely. ",
             "1139": "VMware ESXi contains an authentication bypass vulnerability. A malicious actor with sufficient Active Directory (AD) permissions can gain full access to an ESXi host that was previously configured to use AD for user management by re-creating the configured AD group ('ESXi Admins' by default) after it was deleted from AD.",
-            "1140": "Microsoft COM for Windows contains a deserialization of untrusted data vulnerability that allows for privilege escalation and remote code execution via a specially crafted file or script.",
-            "1141": "Apache OFBiz contains a path traversal vulnerability that could allow for remote code execution.",
-            "1142": "Android contains an unspecified vulnerability in the kernel that allows for remote code execution. This vulnerability resides in Linux Kernel and could impact other products, including but not limited to Android OS."
+            "1140": "Microsoft COM for Windows contains a deserialization of untrusted data vulnerability that allows for privilege escalation and remote code execution via a specially crafted file or script."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -22876,9 +22838,7 @@
             "1137": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1138": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1139": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1140": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1141": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1142": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1140": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -24021,9 +23981,7 @@
             "1137": "2024-08-19T00:00:00",
             "1138": "2024-08-19T00:00:00",
             "1139": "2024-08-20T00:00:00",
-            "1140": "2024-08-26T00:00:00",
-            "1141": "2024-08-28T00:00:00",
-            "1142": "2024-08-28T00:00:00"
+            "1140": "2024-08-26T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -25166,9 +25124,7 @@
             "1137": "Unknown",
             "1138": "Unknown",
             "1139": "Known",
-            "1140": "Unknown",
-            "1141": "Unknown",
-            "1142": "Unknown"
+            "1140": "Unknown"
         },
         "notes": {
             "0": "",
@@ -26311,9 +26267,7 @@
             "1137": "https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB1648313",
             "1138": "https://support.servicenow.com/kb?id=kb_article_view&sysparm_article=KB1645154",
             "1139": "https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505",
-            "1140": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2018-0824",
-            "1141": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/thread/w6s60okgkxp2th1sr8vx0ndmgk68fqrd",
-            "1142": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see:   https://source.android.com/docs/security/bulletin/2024-08-01,  https://lore.kernel.org/linux-cve-announce/20240610090330.1347021-2-lee@kernel.org/T/#u   "
+            "1140": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2018-0824"
         },
         "cwes": {
             "0": [],
@@ -27456,9 +27410,7 @@
             "1137": [],
             "1138": [],
             "1139": [],
-            "1140": [],
-            "1141": [],
-            "1142": []
+            "1140": []
         },
         "EPSS": {
             "0": 0.01194,
@@ -28601,9 +28553,7 @@
             "1137": 0.00896,
             "1138": 0.00896,
             "1139": 0.00043,
-            "1140": 0.96256,
-            "1141": 0.06264,
-            "1142": 0.00172
+            "1140": 0.96256
         },
         "CVSS3": {
             "0": 9.8,
@@ -29746,9 +29696,7 @@
             "1137": 9.8,
             "1138": 9.8,
             "1139": 6.8,
-            "1140": 7.5,
-            "1141": 9.1,
-            "1142": 7.8
+            "1140": 7.5
         }
     }
 }
