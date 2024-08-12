@@ -5,7 +5,9 @@ import pandas as pd
 import plotly.express as px
 import os
 import json
+import re
 from data_fetcher import get_latest_data, update_legacy_data
+from flask import send_file
 
 # Initialize the Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP], suppress_callback_exceptions=True)
@@ -344,29 +346,29 @@ dashboard_layout = html.Div([
                     html.H5("Total KEVs", className="card-title"),
                     html.P(f"{total_kevs}", className="card-text")
                 ])
-            ], className="card-bordered graph-spacing"), width=3),
+            ], className="card-bordered graph-spacing"), sm=6, md=4, lg=3),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.H5("Average EPSS Score", className="card-title"),
                     html.P(f"{average_epss:.2f}", className="card-text")
                 ])
-            ], className="card-bordered"), width=3),
+            ], className="card-bordered"), sm=6, md=4, lg=3),
             dbc.Col(dbc.Card([
                 dbc.CardBody([
                     html.H5("Average CVSS Score", className="card-title"),
                     html.P(f"{average_cvss:.2f}", className="card-text")
                 ])
-            ], className="card-bordered"), width=3),
+            ], className="card-bordered"), sm=6, md=4, lg=3),
         ], justify="center"),
         dbc.Row([
-            dbc.Col(dcc.Graph(figure=severity_pie_fig, className="raisedbox graph-spacing"), width=6),
-            dbc.Col(dcc.Graph(figure=top_vendors_fig, className="raisedbox graph-spacing"), width=6),
+            dbc.Col(dcc.Graph(figure=severity_pie_fig, className="raisedbox graph-spacing", responsive=True), sm=12, lg=6),
+            dbc.Col(dcc.Graph(figure=top_vendors_fig, className="raisedbox graph-spacing", responsive=True), sm=12, lg=6),
         ]),
         dbc.Row([
-            dbc.Col(dcc.Graph(figure=severity_trend_fig, className="raisedbox graph-spacing"), width=12),
+            dbc.Col(dcc.Graph(figure=severity_trend_fig, className="raisedbox graph-spacing", responsive=True), width=12),
         ]),
         dbc.Row([
-            dbc.Col(dcc.Graph(figure=severity_bar_fig, className="raisedbox"), width=12),
+            dbc.Col(dcc.Graph(figure=severity_bar_fig, className="raisedbox", responsive=True), width=12),
         ]),
     ])
 ])
@@ -399,21 +401,49 @@ kev_database_layout = html.Div([
 
 # Legacy layout
 def list_legacy_files():
-    files = os.listdir('Legacy')
-    return [{'label': file, 'value': file} for file in files if file.endswith('.json')]
+    files = [file for file in os.listdir('Legacy') if file.endswith('.json')]
+
+    data_cache_file = None
+    kev_files = []
+
+    for file in files:
+        if file == 'data_cache.json':
+            data_cache_file = file
+        else:
+            kev_files.append(file)
+    
+    # Extract dates from filenames and sort KEV files by date descending
+    def extract_date(file):
+        match = re.search(r'KEV_(\d{8})\.json', file)
+        return match.group(1) if match else '00000000'
+    
+    kev_files = sorted(kev_files, key=extract_date, reverse=True)
+    
+    # Ensure data_cache.json appears first
+    if data_cache_file:
+        kev_files.insert(0, data_cache_file)
+
+    return kev_files
 
 legacy_layout = html.Div([
     dbc.Container([
         html.H1("Legacy Data", className="my-4"),
-        dcc.Dropdown(
-            id='legacy-file-dropdown',
-            options=list_legacy_files(),
-            placeholder='Select a legacy file to view',
-        ),
-        html.Br(),
-        html.Div(id='legacy-file-content')
+        dbc.Row([
+            dbc.Col([
+                html.Ul(
+                    [
+                        html.Li([
+                            html.Span(file, className="me-3"),
+                            html.A("Download", href=f"/download/{file}", download=file, target="_blank", className="btn btn-primary btn-sm")
+                        ], className="d-flex justify-content-between align-items-center mb-2") 
+                        for file in list_legacy_files()
+                    ], className="list-unstyled"
+                )
+            ], width=12)
+        ])
     ])
 ])
+
 
 # STIR Page layout
 def create_stir_page(title, graph1, graph2, table=None):
@@ -481,7 +511,7 @@ app.layout = html.Div([
         dbc.Container([
             html.A(
                 dbc.Row([
-                    dbc.Col(html.Img(src="/assets/p1logo.png", height="80px")),
+                    dbc.Col(html.Img(src="/assets/p1logo.png", height="50px")),
                     dbc.Col(dbc.NavbarBrand("Known Vulnerabilities Dashboard", className="ms-2 title-large")),
                 ],
                 align="center",
@@ -516,13 +546,13 @@ app.layout = html.Div([
                 navbar=True,
             ),
         ]),
-        color="rgb(1, 39, 67, 10)",
+        color="rgb(1, 39, 67)",
         dark=True,
-        expand="lg",
+        expand="md",
         className="mb-5 fixed-top"
     ),
     dcc.Location(id='url', refresh=False),
-    html.Div(id='page-content', style={"color": "black", "paddingTop": "90px"})
+    html.Div(id='page-content', style={"color": "black", "paddingTop": "70px"})
 ])
 
 # ====== Callbacks ======
@@ -660,17 +690,38 @@ def update_kev_database_table(n_clicks, n_submit, start_date, end_date, selected
 
 # Legacy Data page
 @app.callback(
-    Output('legacy-file-content', 'children'),
+    [Output('legacy-file-content', 'children'),
+     Output('legacy-file-download', 'children')],
     [Input('legacy-file-dropdown', 'value')]
 )
 def display_legacy_file_content(file_name):
     if file_name:
         file_path = os.path.join('Legacy', file_name)
         if os.path.exists(file_path):
+            # Preview file content
             with open(file_path, 'r') as file:
                 content = json.load(file)
-            return html.Pre(json.dumps(content, indent=4))
-    return "Select a file to view its content."
+            preview = html.Pre(json.dumps(content, indent=4))
+
+            # Provide download link
+            download_link = html.A(
+                "Download File",
+                href=f"/download/{file_name}",
+                download=file_name,
+                target="_blank",
+                className="btn btn-primary"
+            )
+            return preview, download_link
+    
+    return "Select a file to view its content.", None
+
+@app.server.route('/download/<path:filename>')
+def download_file(filename):
+    file_path = os.path.join('Legacy', filename)
+    if os.path.exists(file_path):
+        return send_file(file_path, as_attachment=True)
+    return "File not found.", 404
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)

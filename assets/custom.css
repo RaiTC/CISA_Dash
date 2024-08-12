@@ -54,3 +54,37 @@ body {
     width: 100%;
     z-index: 1030;
 }
+
+/* Responsive adjustments */
+@media only screen and (max-width: 600px) {
+    .graph-spacing {
+        margin-bottom: 10px !important;
+    }
+    .title-large {
+        font-size: 1.2rem !important;
+    }
+    .title-medium {
+        font-size: 1rem !important;
+    }
+    .card-title {
+        font-size: 1.2rem !important;
+    }
+    .card-text {
+        font-size: 1rem !important;
+    }
+    .raisedbox {
+        padding: 10px !important;
+    }
+    .navbar-dark .navbar-nav .nav-link {
+        font-size: 0.9rem !important;
+    }
+    .graph-bordered {
+        padding: 5px !important;
+    }
+    .card-bordered {
+        padding: 5px !important;
+    }
+    .fixed-top {
+        padding-top: 10px;
+    }
+}

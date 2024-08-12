@@ -17,8 +17,8 @@ LEGACY_DIR = 'Legacy'
 NVD_KEY = os.getenv("NVD_KEY")  # Access the API key from environment variables
 NVD_SLEEPTIME = 6  # NVD Recommended sleep time
 GITHUB_REPO_URL = os.getenv("GITHUB_REPO_URL")
-GITHUB_USERNAME = os.getenv("GITHUB_USERNAME")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+GITHUB_U = os.getenv("GITHUB_U")
+GITHUB_T= os.getenv("GITHUB_T")
 GITHUB_E = os.getenv("GITHUB_E")
 GITHUB_BRANCH = 'main'
 
@@ -119,6 +119,7 @@ def load_cached_data():
 
 def save_cached_data(cisa_data, processed_data):
     print("Saving cached data...")
+    
     if not os.path.exists(LEGACY_DIR):
         os.makedirs(LEGACY_DIR)
     
@@ -156,7 +157,7 @@ def commit_and_push_changes(files_to_commit):
         print("Committing and pushing changes to GitHub...")
         # Configure git
         subprocess.run(['git', 'config', '--global', 'user.email', GITHUB_E], check=True)
-        subprocess.run(['git', 'config', '--global', 'user.name', GITHUB_USERNAME], check=True)
+        subprocess.run(['git', 'config', '--global', 'user.name', GITHUB_U], check=True)
         
         # Add specific files
         for file in files_to_commit:
@@ -166,13 +167,12 @@ def commit_and_push_changes(files_to_commit):
         subprocess.run(['git', 'commit', '-m', 'Update data cache and legacy files'], check=True)
         
         # Push changes
-        repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{GITHUB_REPO_URL.split('https://')[1]}"
+        repo_url_with_token = f"https://{GITHUB_U}:{GITHUB_T}@{GITHUB_REPO_URL.split('https://')[1]}"
         subprocess.run(['git', 'push', repo_url_with_token], check=True)
         print("Changes pushed to GitHub successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error committing and pushing changes: {e}")
         print(f"Command output: {e.output}")
-
 
 def get_latest_data():
     print("Starting data fetching process...")
@@ -193,23 +193,35 @@ def get_latest_data():
 
 def update_legacy_data():
     repo_url = GITHUB_REPO_URL
-    repo_url_with_token = f"https://{GITHUB_USERNAME}:{GITHUB_TOKEN}@{repo_url.split('https://')[1]}"
+    repo_url_with_token = f"https://{GITHUB_U}:{GITHUB_T}@{repo_url.split('https://')[1]}"
+    
     try:
-        # If Legacy directory does not exist, clone the repo
-        if not os.path.exists('Legacy'):
-            print("Cloning repository...")
-            subprocess.run(['git', 'clone', repo_url_with_token, 'Legacy'], check=True)
-        else:
-            print("Updating Legacy directory...")
-            # Change to Legacy directory and pull latest changes
-            current_dir = os.getcwd()
-            os.chdir('Legacy')
-            subprocess.run(['git', 'fetch', '--all'], check=True)
-            subprocess.run(['git', 'reset', '--hard', 'origin/main'], check=True)
-            os.chdir(current_dir)
+        # If Legacy directory does not exist, create it
+        if not os.path.exists(LEGACY_DIR):
+            os.makedirs(LEGACY_DIR)
+            print("Legacy directory created.")
+        
+        # Move to Legacy directory
+        current_dir = os.getcwd()
+        os.chdir(LEGACY_DIR)
+        
+        # Initialize a new git repository in Legacy folder if not already initialized
+        if not os.path.exists('.git'):
+            subprocess.run(['git', 'init'], check=True)
+            subprocess.run(['git', 'remote', 'add', 'origin', repo_url_with_token], check=True)
+            print("Initialized new Git repository in Legacy directory.")
+        
+        # Fetch the latest state from the remote repository
+        subprocess.run(['git', 'fetch', '--all'], check=True)
+        subprocess.run(['git', 'reset', '--hard', 'origin/main'], check=True)
+        
+        # Change back to the original directory
+        os.chdir(current_dir)
+    
     except subprocess.CalledProcessError as e:
         print(f"Error updating legacy data: {e}")
         print(f"Command output: {e.output}")
+        os.chdir(current_dir)
 
 
 if __name__ == "__main__":
