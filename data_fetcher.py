@@ -192,36 +192,21 @@ def get_latest_data():
     return cached_data
 
 def update_legacy_data():
-    repo_url = GITHUB_REPO_URL
-    repo_url_with_token = f"https://{GITHUB_U}:{GITHUB_T}@{repo_url.split('https://')[1]}"
-    
-    try:
-        # If Legacy directory does not exist, create it
-        if not os.path.exists(LEGACY_DIR):
-            os.makedirs(LEGACY_DIR)
-            print("Legacy directory created.")
-        
-        # Move to Legacy directory
-        current_dir = os.getcwd()
-        os.chdir(LEGACY_DIR)
-        
-        # Initialize a new git repository in Legacy folder if not already initialized
-        if not os.path.exists('.git'):
-            subprocess.run(['git', 'init'], check=True)
-            subprocess.run(['git', 'remote', 'add', 'origin', repo_url_with_token], check=True)
-            print("Initialized new Git repository in Legacy directory.")
-        
-        # Fetch the latest state from the remote repository
-        subprocess.run(['git', 'fetch', '--all'], check=True)
-        subprocess.run(['git', 'reset', '--hard', 'origin/main'], check=True)
-        
-        # Change back to the original directory
-        os.chdir(current_dir)
-    
-    except subprocess.CalledProcessError as e:
-        print(f"Error updating legacy data: {e}")
-        print(f"Command output: {e.output}")
-        os.chdir(current_dir)
+    # Ensure the Legacy directory exists
+    if not os.path.exists(LEGACY_DIR):
+        os.makedirs(LEGACY_DIR)
+        print("Legacy directory created.")
+    else:
+        print("Legacy directory already exists.")
+
+    # Clean up the Legacy directory by removing any non-KEV files (debugging)
+    for filename in os.listdir(LEGACY_DIR):
+        if not filename.startswith('KEV_') or not filename.endswith('.json'):
+            file_path = os.path.join(LEGACY_DIR, filename)
+            os.remove(file_path)
+            print(f"Removed non-KEV file from Legacy directory: {filename}")
+
+    print("Legacy directory cleaned and ready for new KEV files.")
 
 
 if __name__ == "__main__":
