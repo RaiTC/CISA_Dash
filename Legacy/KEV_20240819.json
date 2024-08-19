@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.08.19",
-    "dateReleased": "2024-08-19T14:50:54.624Z",
-    "count": 1151,
+    "catalogVersion": "2024.08.07",
+    "dateReleased": "2024-08-07T17:31:38.8549Z",
+    "count": 1143,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -14862,110 +14862,6 @@
             "knownRansomwareCampaignUse": "Unknown",
             "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see:   https://source.android.com/docs/security/bulletin/2024-08-01,  https://lore.kernel.org/linux-cve-announce/20240610090330.1347021-2-lee@kernel.org/T/#u   ",
             "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38107",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows Power Dependency Coordinator Privilege Escalation Vulnerability",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Windows Power Dependency Coordinator contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to obtain SYSTEM privileges.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38107",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38106",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows Kernel Privilege Escalation Vulnerability",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Windows Kernel contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to gain SYSTEM privileges. Successful exploitation of this vulnerability requires an attacker to win a race condition.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38106",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38193",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows Ancillary Function Driver for WinSock Privilege Escalation Vulnerability",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Windows Ancillary Function Driver for WinSock contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to gain SYSTEM privileges.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38193",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38213",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows SmartScreen Security Feature Bypass Vulnerability",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Windows SmartScreen contains a security feature bypass vulnerability that allows an attacker to bypass the SmartScreen user experience via a malicious file.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38213",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38178",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows Scripting Engine Memory Corruption Vulnerability",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Windows Scripting Engine contains a memory corruption vulnerability that allows unauthenticated attacker to initiate remote code execution via a specially crafted URL.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38178",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38189",
-            "vendorProject": "Microsoft",
-            "product": "Project",
-            "vulnerabilityName": "Microsoft Project Remote Code Execution Vulnerability ",
-            "dateAdded": "2024-08-13",
-            "shortDescription": "Microsoft Project contains an unspecified vulnerability that allows for remote code execution via a malicious file.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-03",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38189",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-28986",
-            "vendorProject": "SolarWinds",
-            "product": "Web Help Desk",
-            "vulnerabilityName": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
-            "dateAdded": "2024-08-15",
-            "shortDescription": "SolarWinds Web Help Desk contains a deserialization of untrusted data vulnerability that could allow for remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-05",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.solarwinds.com/trust-center/security-advisories/cve-2024-28986",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-23897",
-            "vendorProject": "Jenkins",
-            "product": "Jenkins Command Line Interface (CLI)",
-            "vulnerabilityName": "Jenkins Command Line Interface (CLI) Path Traversal Vulnerability",
-            "dateAdded": "2024-08-19",
-            "shortDescription": "Jenkins Command Line Interface (CLI) contains a path traversal vulnerability that allows attackers limited read access to certain files, which can lead to code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314",
-            "cwes": []
         }
     ],
     "processed_data": {
@@ -16112,15 +16008,7 @@
             "1139": "CVE-2024-37085",
             "1140": "CVE-2018-0824",
             "1141": "CVE-2024-32113",
-            "1142": "CVE-2024-36971",
-            "1143": "CVE-2024-38107",
-            "1144": "CVE-2024-38106",
-            "1145": "CVE-2024-38193",
-            "1146": "CVE-2024-38213",
-            "1147": "CVE-2024-38178",
-            "1148": "CVE-2024-38189",
-            "1149": "CVE-2024-28986",
-            "1150": "CVE-2024-23897"
+            "1142": "CVE-2024-36971"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -17265,15 +17153,7 @@
             "1139": "VMware",
             "1140": "Microsoft",
             "1141": "Apache",
-            "1142": "Android",
-            "1143": "Microsoft",
-            "1144": "Microsoft",
-            "1145": "Microsoft",
-            "1146": "Microsoft",
-            "1147": "Microsoft",
-            "1148": "Microsoft",
-            "1149": "SolarWinds",
-            "1150": "Jenkins"
+            "1142": "Android"
         },
         "product": {
             "0": "FTA",
@@ -18418,15 +18298,7 @@
             "1139": "ESXi",
             "1140": "Windows",
             "1141": "OFBiz",
-            "1142": "Kernel",
-            "1143": "Windows",
-            "1144": "Windows",
-            "1145": "Windows",
-            "1146": "Windows",
-            "1147": "Windows",
-            "1148": "Project",
-            "1149": "Web Help Desk",
-            "1150": "Jenkins Command Line Interface (CLI)"
+            "1142": "Kernel"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -19571,15 +19443,7 @@
             "1139": "VMware ESXi Authentication Bypass Vulnerability",
             "1140": "Microsoft COM for Windows Deserialization of Untrusted Data Vulnerability",
             "1141": "Apache OFBiz Path Traversal Vulnerability",
-            "1142": "Android Kernel Remote Code Execution Vulnerability",
-            "1143": "Microsoft Windows Power Dependency Coordinator Privilege Escalation Vulnerability",
-            "1144": "Microsoft Windows Kernel Privilege Escalation Vulnerability",
-            "1145": "Microsoft Windows Ancillary Function Driver for WinSock Privilege Escalation Vulnerability",
-            "1146": "Microsoft Windows SmartScreen Security Feature Bypass Vulnerability",
-            "1147": "Microsoft Windows Scripting Engine Memory Corruption Vulnerability",
-            "1148": "Microsoft Project Remote Code Execution Vulnerability ",
-            "1149": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
-            "1150": "Jenkins Command Line Interface (CLI) Path Traversal Vulnerability"
+            "1142": "Android Kernel Remote Code Execution Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -20724,15 +20588,7 @@
             "1139": "2024-07-30T00:00:00",
             "1140": "2024-08-05T00:00:00",
             "1141": "2024-08-07T00:00:00",
-            "1142": "2024-08-07T00:00:00",
-            "1143": "2024-08-13T00:00:00",
-            "1144": "2024-08-13T00:00:00",
-            "1145": "2024-08-13T00:00:00",
-            "1146": "2024-08-13T00:00:00",
-            "1147": "2024-08-13T00:00:00",
-            "1148": "2024-08-13T00:00:00",
-            "1149": "2024-08-15T00:00:00",
-            "1150": "2024-08-19T00:00:00"
+            "1142": "2024-08-07T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -21877,15 +21733,7 @@
             "1139": "VMware ESXi contains an authentication bypass vulnerability. A malicious actor with sufficient Active Directory (AD) permissions can gain full access to an ESXi host that was previously configured to use AD for user management by re-creating the configured AD group ('ESXi Admins' by default) after it was deleted from AD.",
             "1140": "Microsoft COM for Windows contains a deserialization of untrusted data vulnerability that allows for privilege escalation and remote code execution via a specially crafted file or script.",
             "1141": "Apache OFBiz contains a path traversal vulnerability that could allow for remote code execution.",
-            "1142": "Android contains an unspecified vulnerability in the kernel that allows for remote code execution. This vulnerability resides in Linux Kernel and could impact other products, including but not limited to Android OS.",
-            "1143": "Microsoft Windows Power Dependency Coordinator contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to obtain SYSTEM privileges.",
-            "1144": "Microsoft Windows Kernel contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to gain SYSTEM privileges. Successful exploitation of this vulnerability requires an attacker to win a race condition.",
-            "1145": "Microsoft Windows Ancillary Function Driver for WinSock contains an unspecified vulnerability that allows for privilege escalation, enabling a local attacker to gain SYSTEM privileges.",
-            "1146": "Microsoft Windows SmartScreen contains a security feature bypass vulnerability that allows an attacker to bypass the SmartScreen user experience via a malicious file.",
-            "1147": "Microsoft Windows Scripting Engine contains a memory corruption vulnerability that allows unauthenticated attacker to initiate remote code execution via a specially crafted URL.",
-            "1148": "Microsoft Project contains an unspecified vulnerability that allows for remote code execution via a malicious file.",
-            "1149": "SolarWinds Web Help Desk contains a deserialization of untrusted data vulnerability that could allow for remote code execution.",
-            "1150": "Jenkins Command Line Interface (CLI) contains a path traversal vulnerability that allows attackers limited read access to certain files, which can lead to code execution."
+            "1142": "Android contains an unspecified vulnerability in the kernel that allows for remote code execution. This vulnerability resides in Linux Kernel and could impact other products, including but not limited to Android OS."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -23030,15 +22878,7 @@
             "1139": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1140": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1141": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1142": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1143": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1144": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1145": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1146": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1147": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1148": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1149": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1150": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1142": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -24183,15 +24023,7 @@
             "1139": "2024-08-20T00:00:00",
             "1140": "2024-08-26T00:00:00",
             "1141": "2024-08-28T00:00:00",
-            "1142": "2024-08-28T00:00:00",
-            "1143": "2024-09-03T00:00:00",
-            "1144": "2024-09-03T00:00:00",
-            "1145": "2024-09-03T00:00:00",
-            "1146": "2024-09-03T00:00:00",
-            "1147": "2024-09-03T00:00:00",
-            "1148": "2024-09-03T00:00:00",
-            "1149": "2024-09-05T00:00:00",
-            "1150": "2024-09-09T00:00:00"
+            "1142": "2024-08-28T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -25336,15 +25168,7 @@
             "1139": "Known",
             "1140": "Unknown",
             "1141": "Unknown",
-            "1142": "Unknown",
-            "1143": "Unknown",
-            "1144": "Unknown",
-            "1145": "Unknown",
-            "1146": "Unknown",
-            "1147": "Unknown",
-            "1148": "Unknown",
-            "1149": "Unknown",
-            "1150": "Unknown"
+            "1142": "Unknown"
         },
         "notes": {
             "0": "",
@@ -26489,15 +26313,7 @@
             "1139": "https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505",
             "1140": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2018-0824",
             "1141": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/thread/w6s60okgkxp2th1sr8vx0ndmgk68fqrd",
-            "1142": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see:   https://source.android.com/docs/security/bulletin/2024-08-01,  https://lore.kernel.org/linux-cve-announce/20240610090330.1347021-2-lee@kernel.org/T/#u   ",
-            "1143": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38107",
-            "1144": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38106",
-            "1145": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38193",
-            "1146": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38213",
-            "1147": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38178",
-            "1148": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38189",
-            "1149": "https://www.solarwinds.com/trust-center/security-advisories/cve-2024-28986",
-            "1150": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314"
+            "1142": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see:   https://source.android.com/docs/security/bulletin/2024-08-01,  https://lore.kernel.org/linux-cve-announce/20240610090330.1347021-2-lee@kernel.org/T/#u   "
         },
         "cwes": {
             "0": [],
@@ -27642,15 +27458,7 @@
             "1139": [],
             "1140": [],
             "1141": [],
-            "1142": [],
-            "1143": [],
-            "1144": [],
-            "1145": [],
-            "1146": [],
-            "1147": [],
-            "1148": [],
-            "1149": [],
-            "1150": []
+            "1142": []
         },
         "EPSS": {
             "0": 0.01194,
@@ -28795,15 +28603,7 @@
             "1139": 0.00043,
             "1140": 0.96256,
             "1141": 0.06264,
-            "1142": 0.00172,
-            "1143": 0.00043,
-            "1144": 0.00043,
-            "1145": 0.00043,
-            "1146": 0.01422,
-            "1147": 0.02297,
-            "1148": 0.01346,
-            "1149": 0.02983,
-            "1150": 0.96159
+            "1142": 0.00172
         },
         "CVSS3": {
             "0": 9.8,
@@ -29948,15 +29748,7 @@
             "1139": 6.8,
             "1140": 7.5,
             "1141": 9.1,
-            "1142": 7.8,
-            "1143": 7.8,
-            "1144": 7.0,
-            "1145": 7.8,
-            "1146": 6.5,
-            "1147": 7.5,
-            "1148": 8.8,
-            "1149": 9.8,
-            "1150": 9.8
+            "1142": 7.8
         }
     }
 }
