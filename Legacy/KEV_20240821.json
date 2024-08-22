@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.08.21",
-    "dateReleased": "2024-08-21T14:01:44.5031Z",
-    "count": 1155,
+    "catalogVersion": "2024.08.19",
+    "dateReleased": "2024-08-19T14:50:54.624Z",
+    "count": 1151,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -14963,60 +14963,8 @@
             "shortDescription": "Jenkins Command Line Interface (CLI) contains a path traversal vulnerability that allows attackers limited read access to certain files, which can lead to code execution.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-09-09",
-            "knownRansomwareCampaignUse": "Known",
+            "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2021-31196",
-            "vendorProject": "Microsoft",
-            "product": "Exchange Server",
-            "vulnerabilityName": "Microsoft Exchange Server Information Disclosure Vulnerability",
-            "dateAdded": "2024-08-21",
-            "shortDescription": "Microsoft Exchange Server contains an information disclosure vulnerability that allows for remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-11",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2021-31196",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2022-0185",
-            "vendorProject": "Linux",
-            "product": "Kernel",
-            "vulnerabilityName": "Linux Kernel Heap-Based Buffer Overflow",
-            "dateAdded": "2024-08-21",
-            "shortDescription": "Linux kernel contains a heap-based buffer overflow vulnerability in the legacy_parse_param function in the Filesystem Context functionality. This allows an attacker to open a filesystem that does not support the Filesystem Context API and ultimately escalate privileges.",
-            "requiredAction": "Apply updates per vendor instructions or discontinue use of the product if updates are unavailable.",
-            "dueDate": "2024-09-11",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=722d94847de2",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2021-33045",
-            "vendorProject": "Dahua",
-            "product": "IP Camera Firmware",
-            "vulnerabilityName": "Dahua IP Camera Authentication Bypass Vulnerability",
-            "dateAdded": "2024-08-21",
-            "shortDescription": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the loopback device is specified by the client during authentication.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-11",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2021-33044",
-            "vendorProject": "Dahua",
-            "product": "IP Camera Firmware",
-            "vulnerabilityName": "Dahua IP Camera Authentication Bypass Vulnerability",
-            "dateAdded": "2024-08-21",
-            "shortDescription": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the NetKeyboard type argument is specified by the client during authentication.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-11",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
             "cwes": []
         }
     ],
@@ -16172,11 +16120,7 @@
             "1147": "CVE-2024-38178",
             "1148": "CVE-2024-38189",
             "1149": "CVE-2024-28986",
-            "1150": "CVE-2024-23897",
-            "1151": "CVE-2021-31196",
-            "1152": "CVE-2022-0185",
-            "1153": "CVE-2021-33045",
-            "1154": "CVE-2021-33044"
+            "1150": "CVE-2024-23897"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -17329,11 +17273,7 @@
             "1147": "Microsoft",
             "1148": "Microsoft",
             "1149": "SolarWinds",
-            "1150": "Jenkins",
-            "1151": "Microsoft",
-            "1152": "Linux",
-            "1153": "Dahua",
-            "1154": "Dahua"
+            "1150": "Jenkins"
         },
         "product": {
             "0": "FTA",
@@ -18486,11 +18426,7 @@
             "1147": "Windows",
             "1148": "Project",
             "1149": "Web Help Desk",
-            "1150": "Jenkins Command Line Interface (CLI)",
-            "1151": "Exchange Server",
-            "1152": "Kernel",
-            "1153": "IP Camera Firmware",
-            "1154": "IP Camera Firmware"
+            "1150": "Jenkins Command Line Interface (CLI)"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -19643,11 +19579,7 @@
             "1147": "Microsoft Windows Scripting Engine Memory Corruption Vulnerability",
             "1148": "Microsoft Project Remote Code Execution Vulnerability ",
             "1149": "SolarWinds Web Help Desk Deserialization of Untrusted Data Vulnerability",
-            "1150": "Jenkins Command Line Interface (CLI) Path Traversal Vulnerability",
-            "1151": "Microsoft Exchange Server Information Disclosure Vulnerability",
-            "1152": "Linux Kernel Heap-Based Buffer Overflow",
-            "1153": "Dahua IP Camera Authentication Bypass Vulnerability",
-            "1154": "Dahua IP Camera Authentication Bypass Vulnerability"
+            "1150": "Jenkins Command Line Interface (CLI) Path Traversal Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -20800,11 +20732,7 @@
             "1147": "2024-08-13T00:00:00",
             "1148": "2024-08-13T00:00:00",
             "1149": "2024-08-15T00:00:00",
-            "1150": "2024-08-19T00:00:00",
-            "1151": "2024-08-21T00:00:00",
-            "1152": "2024-08-21T00:00:00",
-            "1153": "2024-08-21T00:00:00",
-            "1154": "2024-08-21T00:00:00"
+            "1150": "2024-08-19T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -21957,11 +21885,7 @@
             "1147": "Microsoft Windows Scripting Engine contains a memory corruption vulnerability that allows unauthenticated attacker to initiate remote code execution via a specially crafted URL.",
             "1148": "Microsoft Project contains an unspecified vulnerability that allows for remote code execution via a malicious file.",
             "1149": "SolarWinds Web Help Desk contains a deserialization of untrusted data vulnerability that could allow for remote code execution.",
-            "1150": "Jenkins Command Line Interface (CLI) contains a path traversal vulnerability that allows attackers limited read access to certain files, which can lead to code execution.",
-            "1151": "Microsoft Exchange Server contains an information disclosure vulnerability that allows for remote code execution.",
-            "1152": "Linux kernel contains a heap-based buffer overflow vulnerability in the legacy_parse_param function in the Filesystem Context functionality. This allows an attacker to open a filesystem that does not support the Filesystem Context API and ultimately escalate privileges.",
-            "1153": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the loopback device is specified by the client during authentication.",
-            "1154": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the NetKeyboard type argument is specified by the client during authentication."
+            "1150": "Jenkins Command Line Interface (CLI) contains a path traversal vulnerability that allows attackers limited read access to certain files, which can lead to code execution."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -23114,11 +23038,7 @@
             "1147": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1148": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1149": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1150": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1151": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1152": "Apply updates per vendor instructions or discontinue use of the product if updates are unavailable.",
-            "1153": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1154": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1150": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -24271,11 +24191,7 @@
             "1147": "2024-09-03T00:00:00",
             "1148": "2024-09-03T00:00:00",
             "1149": "2024-09-05T00:00:00",
-            "1150": "2024-09-09T00:00:00",
-            "1151": "2024-09-11T00:00:00",
-            "1152": "2024-09-11T00:00:00",
-            "1153": "2024-09-11T00:00:00",
-            "1154": "2024-09-11T00:00:00"
+            "1150": "2024-09-09T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -25428,11 +25344,7 @@
             "1147": "Unknown",
             "1148": "Unknown",
             "1149": "Unknown",
-            "1150": "Unknown",
-            "1151": "Unknown",
-            "1152": "Unknown",
-            "1153": "Unknown",
-            "1154": "Unknown"
+            "1150": "Unknown"
         },
         "notes": {
             "0": "",
@@ -26585,11 +26497,7 @@
             "1147": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38178",
             "1148": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38189",
             "1149": "https://www.solarwinds.com/trust-center/security-advisories/cve-2024-28986",
-            "1150": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314",
-            "1151": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2021-31196",
-            "1152": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=722d94847de2",
-            "1153": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
-            "1154": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582"
+            "1150": "https://www.jenkins.io/security/advisory/2024-01-24/#SECURITY-3314"
         },
         "cwes": {
             "0": [],
@@ -27742,11 +27650,7 @@
             "1147": [],
             "1148": [],
             "1149": [],
-            "1150": [],
-            "1151": [],
-            "1152": [],
-            "1153": [],
-            "1154": []
+            "1150": []
         },
         "EPSS": {
             "0": 0.01194,
@@ -28899,11 +28803,7 @@
             "1147": 0.02297,
             "1148": 0.01346,
             "1149": 0.02983,
-            "1150": 0.96159,
-            "1151": 0.06174,
-            "1152": 0.00337,
-            "1153": 0.93321,
-            "1154": 0.95229
+            "1150": 0.96159
         },
         "CVSS3": {
             "0": 9.8,
@@ -30056,11 +29956,7 @@
             "1147": 7.5,
             "1148": 8.8,
             "1149": 9.8,
-            "1150": 9.8,
-            "1151": 7.2,
-            "1152": 8.4,
-            "1153": 9.8,
-            "1154": 9.8
+            "1150": 9.8
         }
     }
 }
