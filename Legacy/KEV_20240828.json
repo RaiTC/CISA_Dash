@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.08.28",
-    "dateReleased": "2024-08-28T14:02:52.0217Z",
-    "count": 1159,
+    "catalogVersion": "2024.08.21",
+    "dateReleased": "2024-08-21T14:01:44.5031Z",
+    "count": 1155,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -15018,58 +15018,6 @@
             "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
             "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-39717",
-            "vendorProject": "Versa",
-            "product": "Director",
-            "vulnerabilityName": "Versa Director Dangerous File Type Upload Vulnerability",
-            "dateAdded": "2024-08-23",
-            "shortDescription": "The Versa Director GUI contains an unrestricted upload of file with dangerous type vulnerability that allows administrators with Provider-Data-Center-Admin or Provider-Data-Center-System-Admin privileges to customize the user interface. The \u201cChange Favicon\u201d (Favorite Icon) enables the upload of a .png file, which can be exploited to upload a malicious file with a .png extension disguised as an image.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-13",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://versa-networks.com/blog/versa-security-bulletin-update-on-cve-2024-39717-versa-director-dangerous-file-type-upload-vulnerability/",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-7971",
-            "vendorProject": "Google",
-            "product": "Chromium V8",
-            "vulnerabilityName": "Google Chromium V8 Type Confusion Vulnerability",
-            "dateAdded": "2024-08-26",
-            "shortDescription": "Google Chromium V8 contains a type confusion vulnerability that allows a remote attacker to exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-16",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-38856",
-            "vendorProject": "Apache",
-            "product": "OFBiz",
-            "vulnerabilityName": "Apache OFBiz Incorrect Authorization Vulnerability",
-            "dateAdded": "2024-08-27",
-            "shortDescription": "Apache OFBiz contains an incorrect authorization vulnerability that could allow remote code execution via a Groovy payload in the context of the OFBiz user process by an unauthenticated attacker.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-17",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/list?user@ofbiz.apache.org:lte=1M:CVE-2024-38856",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-7965",
-            "vendorProject": "Google",
-            "product": "Chromium V8",
-            "vulnerabilityName": "Google Chromium V8 Inappropriate Implementation Vulnerability",
-            "dateAdded": "2024-08-28",
-            "shortDescription": "Google Chromium V8 contains an inappropriate implementation vulnerability that allows a remote attacker to potentially exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-18",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
-            "cwes": []
         }
     ],
     "processed_data": {
@@ -16228,11 +16176,7 @@
             "1151": "CVE-2021-31196",
             "1152": "CVE-2022-0185",
             "1153": "CVE-2021-33045",
-            "1154": "CVE-2021-33044",
-            "1155": "CVE-2024-39717",
-            "1156": "CVE-2024-7971",
-            "1157": "CVE-2024-38856",
-            "1158": "CVE-2024-7965"
+            "1154": "CVE-2021-33044"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -17389,11 +17333,7 @@
             "1151": "Microsoft",
             "1152": "Linux",
             "1153": "Dahua",
-            "1154": "Dahua",
-            "1155": "Versa",
-            "1156": "Google",
-            "1157": "Apache",
-            "1158": "Google"
+            "1154": "Dahua"
         },
         "product": {
             "0": "FTA",
@@ -18550,11 +18490,7 @@
             "1151": "Exchange Server",
             "1152": "Kernel",
             "1153": "IP Camera Firmware",
-            "1154": "IP Camera Firmware",
-            "1155": "Director",
-            "1156": "Chromium V8",
-            "1157": "OFBiz",
-            "1158": "Chromium V8"
+            "1154": "IP Camera Firmware"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -19711,11 +19647,7 @@
             "1151": "Microsoft Exchange Server Information Disclosure Vulnerability",
             "1152": "Linux Kernel Heap-Based Buffer Overflow",
             "1153": "Dahua IP Camera Authentication Bypass Vulnerability",
-            "1154": "Dahua IP Camera Authentication Bypass Vulnerability",
-            "1155": "Versa Director Dangerous File Type Upload Vulnerability",
-            "1156": "Google Chromium V8 Type Confusion Vulnerability",
-            "1157": "Apache OFBiz Incorrect Authorization Vulnerability",
-            "1158": "Google Chromium V8 Inappropriate Implementation Vulnerability"
+            "1154": "Dahua IP Camera Authentication Bypass Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -20872,11 +20804,7 @@
             "1151": "2024-08-21T00:00:00",
             "1152": "2024-08-21T00:00:00",
             "1153": "2024-08-21T00:00:00",
-            "1154": "2024-08-21T00:00:00",
-            "1155": "2024-08-23T00:00:00",
-            "1156": "2024-08-26T00:00:00",
-            "1157": "2024-08-27T00:00:00",
-            "1158": "2024-08-28T00:00:00"
+            "1154": "2024-08-21T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -22033,11 +21961,7 @@
             "1151": "Microsoft Exchange Server contains an information disclosure vulnerability that allows for remote code execution.",
             "1152": "Linux kernel contains a heap-based buffer overflow vulnerability in the legacy_parse_param function in the Filesystem Context functionality. This allows an attacker to open a filesystem that does not support the Filesystem Context API and ultimately escalate privileges.",
             "1153": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the loopback device is specified by the client during authentication.",
-            "1154": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the NetKeyboard type argument is specified by the client during authentication.",
-            "1155": "The Versa Director GUI contains an unrestricted upload of file with dangerous type vulnerability that allows administrators with Provider-Data-Center-Admin or Provider-Data-Center-System-Admin privileges to customize the user interface. The \u201cChange Favicon\u201d (Favorite Icon) enables the upload of a .png file, which can be exploited to upload a malicious file with a .png extension disguised as an image.",
-            "1156": "Google Chromium V8 contains a type confusion vulnerability that allows a remote attacker to exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
-            "1157": "Apache OFBiz contains an incorrect authorization vulnerability that could allow remote code execution via a Groovy payload in the context of the OFBiz user process by an unauthenticated attacker.",
-            "1158": "Google Chromium V8 contains an inappropriate implementation vulnerability that allows a remote attacker to potentially exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera."
+            "1154": "Dahua IP cameras and related products contain an authentication bypass vulnerability when the NetKeyboard type argument is specified by the client during authentication."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -23194,11 +23118,7 @@
             "1151": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1152": "Apply updates per vendor instructions or discontinue use of the product if updates are unavailable.",
             "1153": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1154": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1155": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1156": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1157": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1158": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1154": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -24355,11 +24275,7 @@
             "1151": "2024-09-11T00:00:00",
             "1152": "2024-09-11T00:00:00",
             "1153": "2024-09-11T00:00:00",
-            "1154": "2024-09-11T00:00:00",
-            "1155": "2024-09-13T00:00:00",
-            "1156": "2024-09-16T00:00:00",
-            "1157": "2024-09-17T00:00:00",
-            "1158": "2024-09-18T00:00:00"
+            "1154": "2024-09-11T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -25516,11 +25432,7 @@
             "1151": "Unknown",
             "1152": "Unknown",
             "1153": "Unknown",
-            "1154": "Unknown",
-            "1155": "Unknown",
-            "1156": "Unknown",
-            "1157": "Unknown",
-            "1158": "Unknown"
+            "1154": "Unknown"
         },
         "notes": {
             "0": "",
@@ -26677,11 +26589,7 @@
             "1151": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2021-31196",
             "1152": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=722d94847de2",
             "1153": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
-            "1154": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582",
-            "1155": "https://versa-networks.com/blog/versa-security-bulletin-update-on-cve-2024-39717-versa-director-dangerous-file-type-upload-vulnerability/",
-            "1156": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
-            "1157": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/list?user@ofbiz.apache.org:lte=1M:CVE-2024-38856",
-            "1158": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html"
+            "1154": "https://www.dahuasecurity.com/aboutUs/trustedCenter/details/582"
         },
         "cwes": {
             "0": [],
@@ -27838,11 +27746,7 @@
             "1151": [],
             "1152": [],
             "1153": [],
-            "1154": [],
-            "1155": [],
-            "1156": [],
-            "1157": [],
-            "1158": []
+            "1154": []
         },
         "EPSS": {
             "0": 0.01194,
@@ -28999,11 +28903,7 @@
             "1151": 0.06174,
             "1152": 0.00337,
             "1153": 0.93321,
-            "1154": 0.95229,
-            "1155": 0.0026,
-            "1156": 0.00159,
-            "1157": 0.93274,
-            "1158": 0.00782
+            "1154": 0.95229
         },
         "CVSS3": {
             "0": 9.8,
@@ -30160,11 +30060,7 @@
             "1151": 7.2,
             "1152": 8.4,
             "1153": 9.8,
-            "1154": 9.8,
-            "1155": 7.2,
-            "1156": 8.8,
-            "1157": 9.8,
-            "1158": 8.8
+            "1154": 9.8
         }
     }
 }
