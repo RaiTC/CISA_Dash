@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.09.03",
-    "dateReleased": "2024-09-03T14:58:39.1329Z",
-    "count": 1162,
+    "catalogVersion": "2024.08.28",
+    "dateReleased": "2024-08-28T14:02:52.0217Z",
+    "count": 1159,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -14984,7 +14984,7 @@
             "cveID": "CVE-2022-0185",
             "vendorProject": "Linux",
             "product": "Kernel",
-            "vulnerabilityName": "Linux Kernel Heap-Based Buffer Overflow Vulnerability",
+            "vulnerabilityName": "Linux Kernel Heap-Based Buffer Overflow",
             "dateAdded": "2024-08-21",
             "shortDescription": "Linux kernel contains a heap-based buffer overflow vulnerability in the legacy_parse_param function in the Filesystem Context functionality. This allows an attacker to open a filesystem that does not support the Filesystem Context API and ultimately escalate privileges.",
             "requiredAction": "Apply updates per vendor instructions or discontinue use of the product if updates are unavailable.",
@@ -15069,45 +15069,6 @@
             "dueDate": "2024-09-18",
             "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-7262",
-            "vendorProject": "Kingsoft",
-            "product": "WPS Office",
-            "vulnerabilityName": "Kingsoft WPS Office Path Traversal Vulnerability",
-            "dateAdded": "2024-09-03",
-            "shortDescription": "Kingsoft WPS Office contains a path traversal vulnerability in promecefpluginhost.exe on Windows that allows an attacker to load an arbitrary Windows library.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-24",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "While CISA cannot confirm the effectiveness of patches at this time, it is recommended that mitigations be applied per vendor instructions if available. If these instructions cannot be located or if mitigations are unavailable, discontinue the use of the product.",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2021-20124",
-            "vendorProject": "DrayTek",
-            "product": "VigorConnect",
-            "vulnerabilityName": "Draytek VigorConnect Path Traversal Vulnerability ",
-            "dateAdded": "2024-09-03",
-            "shortDescription": "Draytek VigorConnect contains a path traversal vulnerability in the file download functionality of the WebServlet endpoint. An unauthenticated attacker could leverage this vulnerability to download arbitrary files from the underlying operating system with root privileges.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-24",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.draytek.com/about/security-advisory/vigorconnect-software-security-vulnerability-(cve-2021-20123-cve-2021-20129)",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2021-20123",
-            "vendorProject": "DrayTek",
-            "product": "VigorConnect",
-            "vulnerabilityName": "Draytek VigorConnect Path Traversal Vulnerability ",
-            "dateAdded": "2024-09-03",
-            "shortDescription": "Draytek VigorConnect contains a path traversal vulnerability in the DownloadFileServlet endpoint. An unauthenticated attacker could leverage this vulnerability to download arbitrary files from the underlying operating system with root privileges. ",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-09-24",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.draytek.com/about/security-advisory/vigorconnect-software-security-vulnerability-(cve-2021-20123-cve-2021-20129)",
             "cwes": []
         }
     ],
@@ -16271,10 +16232,7 @@
             "1155": "CVE-2024-39717",
             "1156": "CVE-2024-7971",
             "1157": "CVE-2024-38856",
-            "1158": "CVE-2024-7965",
-            "1159": "CVE-2024-7262",
-            "1160": "CVE-2021-20124",
-            "1161": "CVE-2021-20123"
+            "1158": "CVE-2024-7965"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -17435,10 +17393,7 @@
             "1155": "Versa",
             "1156": "Google",
             "1157": "Apache",
-            "1158": "Google",
-            "1159": "Kingsoft",
-            "1160": "DrayTek",
-            "1161": "DrayTek"
+            "1158": "Google"
         },
         "product": {
             "0": "FTA",
@@ -18599,10 +18554,7 @@
             "1155": "Director",
             "1156": "Chromium V8",
             "1157": "OFBiz",
-            "1158": "Chromium V8",
-            "1159": "WPS Office",
-            "1160": "VigorConnect",
-            "1161": "VigorConnect"
+            "1158": "Chromium V8"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -19763,10 +19715,7 @@
             "1155": "Versa Director Dangerous File Type Upload Vulnerability",
             "1156": "Google Chromium V8 Type Confusion Vulnerability",
             "1157": "Apache OFBiz Incorrect Authorization Vulnerability",
-            "1158": "Google Chromium V8 Inappropriate Implementation Vulnerability",
-            "1159": "Kingsoft WPS Office Path Traversal Vulnerability",
-            "1160": "Draytek VigorConnect Path Traversal Vulnerability ",
-            "1161": "Draytek VigorConnect Path Traversal Vulnerability "
+            "1158": "Google Chromium V8 Inappropriate Implementation Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -20927,10 +20876,7 @@
             "1155": "2024-08-23T00:00:00",
             "1156": "2024-08-26T00:00:00",
             "1157": "2024-08-27T00:00:00",
-            "1158": "2024-08-28T00:00:00",
-            "1159": "2024-09-03T00:00:00",
-            "1160": "2024-09-03T00:00:00",
-            "1161": "2024-09-03T00:00:00"
+            "1158": "2024-08-28T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -22091,10 +22037,7 @@
             "1155": "The Versa Director GUI contains an unrestricted upload of file with dangerous type vulnerability that allows administrators with Provider-Data-Center-Admin or Provider-Data-Center-System-Admin privileges to customize the user interface. The \u201cChange Favicon\u201d (Favorite Icon) enables the upload of a .png file, which can be exploited to upload a malicious file with a .png extension disguised as an image.",
             "1156": "Google Chromium V8 contains a type confusion vulnerability that allows a remote attacker to exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
             "1157": "Apache OFBiz contains an incorrect authorization vulnerability that could allow remote code execution via a Groovy payload in the context of the OFBiz user process by an unauthenticated attacker.",
-            "1158": "Google Chromium V8 contains an inappropriate implementation vulnerability that allows a remote attacker to potentially exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
-            "1159": "Kingsoft WPS Office contains a path traversal vulnerability in promecefpluginhost.exe on Windows that allows an attacker to load an arbitrary Windows library.",
-            "1160": "Draytek VigorConnect contains a path traversal vulnerability in the file download functionality of the WebServlet endpoint. An unauthenticated attacker could leverage this vulnerability to download arbitrary files from the underlying operating system with root privileges.",
-            "1161": "Draytek VigorConnect contains a path traversal vulnerability in the DownloadFileServlet endpoint. An unauthenticated attacker could leverage this vulnerability to download arbitrary files from the underlying operating system with root privileges. "
+            "1158": "Google Chromium V8 contains an inappropriate implementation vulnerability that allows a remote attacker to potentially exploit heap corruption via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -23255,10 +23198,7 @@
             "1155": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1156": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1157": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1158": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1159": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1160": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1161": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1158": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -24419,10 +24359,7 @@
             "1155": "2024-09-13T00:00:00",
             "1156": "2024-09-16T00:00:00",
             "1157": "2024-09-17T00:00:00",
-            "1158": "2024-09-18T00:00:00",
-            "1159": "2024-09-24T00:00:00",
-            "1160": "2024-09-24T00:00:00",
-            "1161": "2024-09-24T00:00:00"
+            "1158": "2024-09-18T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -25583,10 +25520,7 @@
             "1155": "Unknown",
             "1156": "Unknown",
             "1157": "Unknown",
-            "1158": "Unknown",
-            "1159": "Unknown",
-            "1160": "Unknown",
-            "1161": "Unknown"
+            "1158": "Unknown"
         },
         "notes": {
             "0": "",
@@ -26747,10 +26681,7 @@
             "1155": "https://versa-networks.com/blog/versa-security-bulletin-update-on-cve-2024-39717-versa-director-dangerous-file-type-upload-vulnerability/",
             "1156": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
             "1157": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. Please check with specific vendors for information on patching status. For more information, please see: https://lists.apache.org/list?user@ofbiz.apache.org:lte=1M:CVE-2024-38856",
-            "1158": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html",
-            "1159": "While CISA cannot confirm the effectiveness of patches at this time, it is recommended that mitigations be applied per vendor instructions if available. If these instructions cannot be located or if mitigations are unavailable, discontinue the use of the product.",
-            "1160": "https://www.draytek.com/about/security-advisory/vigorconnect-software-security-vulnerability-(cve-2021-20123-cve-2021-20129)",
-            "1161": "https://www.draytek.com/about/security-advisory/vigorconnect-software-security-vulnerability-(cve-2021-20123-cve-2021-20129)"
+            "1158": "https://chromereleases.googleblog.com/2024/08/stable-channel-update-for-desktop_21.html"
         },
         "cwes": {
             "0": [],
@@ -27911,10 +27842,7 @@
             "1155": [],
             "1156": [],
             "1157": [],
-            "1158": [],
-            "1159": [],
-            "1160": [],
-            "1161": []
+            "1158": []
         },
         "EPSS": {
             "0": 0.01194,
@@ -29075,10 +29003,7 @@
             "1155": 0.0026,
             "1156": 0.00159,
             "1157": 0.93274,
-            "1158": 0.00782,
-            "1159": 0.00055,
-            "1160": 0.00859,
-            "1161": 0.01376
+            "1158": 0.00782
         },
         "CVSS3": {
             "0": 9.8,
@@ -30239,10 +30164,7 @@
             "1155": 7.2,
             "1156": 8.8,
             "1157": 9.8,
-            "1158": 8.8,
-            "1159": 7.8,
-            "1160": 7.5,
-            "1161": 7.5
+            "1158": 8.8
         }
     }
 }
