@@ -1,8 +1,8 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.09.18",
-    "dateReleased": "2024-09-18T14:05:34.7103Z",
-    "count": 1181,
+    "catalogVersion": "2024.09.16",
+    "dateReleased": "2024-09-16T13:59:31.539Z",
+    "count": 1172,
     "vulnerabilities": [
         {
             "cveID": "CVE-2021-27104",
@@ -17389,131 +17389,6 @@
             "cwes": [
                 "CWE-451"
             ]
-        },
-        {
-            "cveID": "CVE-2014-0502",
-            "vendorProject": "Adobe",
-            "product": "Flash Player",
-            "vulnerabilityName": "Adobe Flash Player Double Free Vulnerablity",
-            "dateAdded": "2024-09-17",
-            "shortDescription": "Adobe Flash Player contains a double free vulnerability that allows a remote attacker to execute arbitrary code.",
-            "requiredAction": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "dueDate": "2024-10-08",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2014-0502",
-            "cwes": [
-                "CWE-399"
-            ]
-        },
-        {
-            "cveID": "CVE-2013-0648",
-            "vendorProject": "Adobe",
-            "product": "Flash Player",
-            "vulnerabilityName": "Adobe Flash Player Code Execution Vulnerability",
-            "dateAdded": "2024-09-17",
-            "shortDescription": "Adobe Flash Player contains an unspecified vulnerability in the ExternalInterface ActionScript functionality that allows a remote attacker to execute arbitrary code via crafted SWF content.",
-            "requiredAction": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "dueDate": "2024-10-08",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2013-0648",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2013-0643",
-            "vendorProject": "Adobe",
-            "product": "Flash Player",
-            "vulnerabilityName": "Adobe Flash Player Incorrect Default Permissions Vulnerability",
-            "dateAdded": "2024-09-17",
-            "shortDescription": "Adobe Flash Player contains an incorrect default permissions vulnerability in the Firefox sandbox that allows a remote attacker to execute arbitrary code via crafted SWF content. ",
-            "requiredAction": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "dueDate": "2024-10-08",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2013-0643",
-            "cwes": [
-                "CWE-264"
-            ]
-        },
-        {
-            "cveID": "CVE-2014-0497",
-            "vendorProject": "Adobe",
-            "product": "Flash Player",
-            "vulnerabilityName": "Adobe Flash Player Integer Underflow Vulnerablity",
-            "dateAdded": "2024-09-17",
-            "shortDescription": "Adobe Flash Player contains an integer underflow vulnerability that allows a remote attacker to execute arbitrary code.",
-            "requiredAction": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "dueDate": "2024-10-08",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2014-0497",
-            "cwes": [
-                "CWE-191"
-            ]
-        },
-        {
-            "cveID": "CVE-2020-14644",
-            "vendorProject": "Oracle",
-            "product": "WebLogic Server",
-            "vulnerabilityName": "Oracle WebLogic Server Remote Code Execution Vulnerability",
-            "dateAdded": "2024-09-18",
-            "shortDescription": "Oracle WebLogic Server, a product within the Fusion Middleware suite, contains a deserialization vulnerability. Unauthenticated attackers with network access via T3 or IIOP can exploit this vulnerability to achieve remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-10-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.oracle.com/security-alerts/cpujul2020.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-14644",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2022-21445",
-            "vendorProject": "Oracle",
-            "product": "JDeveloper",
-            "vulnerabilityName": "Oracle JDeveloper Remote Code Execution Vulnerability",
-            "dateAdded": "2024-09-18",
-            "shortDescription": "Oracle JDeveloper, a product within the Fusion Middleware suite, contains an deserialization vulnerability the ADF Faces component, leading to unauthenticated remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-10-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.oracle.com/security-alerts/cpuapr2022.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2022-21445",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2019-1069",
-            "vendorProject": "Microsoft",
-            "product": "Windows",
-            "vulnerabilityName": "Microsoft Windows Task Scheduler Privilege Escalation Vulnerability",
-            "dateAdded": "2024-09-18",
-            "shortDescription": "Microsoft Windows Task Scheduler contains a privilege escalation vulnerability in the way that the SetJobFileSecurityByName() function is used that can allow an authenticated attacker to gain SYSTEM privileges on an affected system.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-10-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2019-1069  ;  https://nvd.nist.gov/vuln/detail/CVE-2019-1069",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2020-0618",
-            "vendorProject": "Microsoft",
-            "product": "SQL Server",
-            "vulnerabilityName": "Microsoft SQL Server Reporting Services Remote Code Execution Vulnerability",
-            "dateAdded": "2024-09-18",
-            "shortDescription": "Microsoft SQL Server Reporting Services contains a deserialization vulnerability when handling page requests incorrectly. An authenticated attacker can exploit this vulnerability to execute code in the context of the Report Server service account.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-10-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2020-0618  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-0618",
-            "cwes": []
-        },
-        {
-            "cveID": "CVE-2024-27348",
-            "vendorProject": "Apache",
-            "product": "HugeGraph-Server",
-            "vulnerabilityName": "Apache HugeGraph-Server Improper Access Control Vulnerability",
-            "dateAdded": "2024-09-18",
-            "shortDescription": "Apache HugeGraph-Server contains an improper access control vulnerability that could allow a remote attacker to execute arbitrary code.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-10-09",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see:  https://lists.apache.org/thread/nx6g6htyhpgtzsocybm242781o8w5kq9  ;  https://nvd.nist.gov/vuln/detail/CVE-2024-27348",
-            "cwes": [
-                "CWE-284"
-            ]
         }
     ],
     "processed_data": {
@@ -18689,15 +18564,7 @@
             "1168": "CVE-2024-38226",
             "1169": "CVE-2024-8190",
             "1170": "CVE-2024-6670",
-            "1171": "CVE-2024-43461",
-            "1172": "CVE-2014-0502",
-            "1173": "CVE-2013-0648",
-            "1174": "CVE-2013-0643",
-            "1175": "CVE-2014-0497",
-            "1176": "CVE-2020-14644",
-            "1177": "CVE-2022-21445",
-            "1178": "CVE-2020-0618",
-            "1179": "CVE-2024-27348"
+            "1171": "CVE-2024-43461"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -19871,15 +19738,7 @@
             "1168": "Microsoft",
             "1169": "Ivanti",
             "1170": "Progress",
-            "1171": "Microsoft",
-            "1172": "Adobe",
-            "1173": "Adobe",
-            "1174": "Adobe",
-            "1175": "Adobe",
-            "1176": "Oracle",
-            "1177": "Oracle",
-            "1178": "Microsoft",
-            "1179": "Apache"
+            "1171": "Microsoft"
         },
         "product": {
             "0": "FTA",
@@ -21053,15 +20912,7 @@
             "1168": "Publisher",
             "1169": "Cloud Services Appliance",
             "1170": "WhatsUp Gold",
-            "1171": "Windows",
-            "1172": "Flash Player",
-            "1173": "Flash Player",
-            "1174": "Flash Player",
-            "1175": "Flash Player",
-            "1176": "WebLogic Server",
-            "1177": "JDeveloper",
-            "1178": "SQL Server",
-            "1179": "HugeGraph-Server"
+            "1171": "Windows"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -22235,15 +22086,7 @@
             "1168": "Microsoft Publisher Protection Mechanism Failure Vulnerability",
             "1169": "Ivanti Cloud Services Appliance OS Command Injection Vulnerability",
             "1170": "Progress WhatsUp Gold SQL Injection Vulnerability",
-            "1171": "Microsoft Windows MSHTML Platform Spoofing Vulnerability",
-            "1172": "Adobe Flash Player Double Free Vulnerablity",
-            "1173": "Adobe Flash Player Code Execution Vulnerability",
-            "1174": "Adobe Flash Player Incorrect Default Permissions Vulnerability",
-            "1175": "Adobe Flash Player Integer Underflow Vulnerablity",
-            "1176": "Oracle WebLogic Server Remote Code Execution Vulnerability",
-            "1177": "Oracle JDeveloper Remote Code Execution Vulnerability",
-            "1178": "Microsoft SQL Server Reporting Services Remote Code Execution Vulnerability",
-            "1179": "Apache HugeGraph-Server Improper Access Control Vulnerability"
+            "1171": "Microsoft Windows MSHTML Platform Spoofing Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -23417,15 +23260,7 @@
             "1168": "2024-09-10T00:00:00",
             "1169": "2024-09-13T00:00:00",
             "1170": "2024-09-16T00:00:00",
-            "1171": "2024-09-16T00:00:00",
-            "1172": "2024-09-17T00:00:00",
-            "1173": "2024-09-17T00:00:00",
-            "1174": "2024-09-17T00:00:00",
-            "1175": "2024-09-17T00:00:00",
-            "1176": "2024-09-18T00:00:00",
-            "1177": "2024-09-18T00:00:00",
-            "1178": "2024-09-18T00:00:00",
-            "1179": "2024-09-18T00:00:00"
+            "1171": "2024-09-16T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -24599,15 +24434,7 @@
             "1168": "Microsoft Publisher contains a protection mechanism failure vulnerability that allows attacker to bypass Office macro policies used to block untrusted or malicious files.",
             "1169": "Ivanti Cloud Services Appliance (CSA) contains an OS command injection vulnerability in the administrative console which can allow an authenticated attacker with application admin privileges to pass commands to the underlying OS.",
             "1170": "Progress WhatsUp Gold contains a SQL injection vulnerability that allows an unauthenticated attacker to retrieve the user's encrypted password if the application is configured with only a single user.",
-            "1171": "Microsoft Windows MSHTML Platform contains a user interface (UI) misrepresentation of critical information vulnerability that allows an attacker to spoof a web page. This vulnerability was exploited in conjunction with CVE-2024-38112.",
-            "1172": "Adobe Flash Player contains a double free vulnerability that allows a remote attacker to execute arbitrary code.",
-            "1173": "Adobe Flash Player contains an unspecified vulnerability in the ExternalInterface ActionScript functionality that allows a remote attacker to execute arbitrary code via crafted SWF content.",
-            "1174": "Adobe Flash Player contains an incorrect default permissions vulnerability in the Firefox sandbox that allows a remote attacker to execute arbitrary code via crafted SWF content. ",
-            "1175": "Adobe Flash Player contains an integer underflow vulnerability that allows a remote attacker to execute arbitrary code.",
-            "1176": "Oracle WebLogic Server, a product within the Fusion Middleware suite, contains a deserialization vulnerability. Unauthenticated attackers with network access via T3 or IIOP can exploit this vulnerability to achieve remote code execution.",
-            "1177": "Oracle JDeveloper, a product within the Fusion Middleware suite, contains an deserialization vulnerability the ADF Faces component, leading to unauthenticated remote code execution.",
-            "1178": "Microsoft SQL Server Reporting Services contains a deserialization vulnerability when handling page requests incorrectly. An authenticated attacker can exploit this vulnerability to execute code in the context of the Report Server service account.",
-            "1179": "Apache HugeGraph-Server contains an improper access control vulnerability that could allow a remote attacker to execute arbitrary code."
+            "1171": "Microsoft Windows MSHTML Platform contains a user interface (UI) misrepresentation of critical information vulnerability that allows an attacker to spoof a web page. This vulnerability was exploited in conjunction with CVE-2024-38112."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -25781,15 +25608,7 @@
             "1168": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1169": "As Ivanti CSA has reached End-of-Life status, users are urged to remove CSA 4.6.x from service or upgrade to the 5.0.x line of supported solutions, as future vulnerabilities on the 4.6.x version of CSA are unlikely to receive future security updates.",
             "1170": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1171": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1172": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "1173": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "1174": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "1175": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "1176": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1177": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1178": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1179": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1171": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -26963,15 +26782,7 @@
             "1168": "2024-10-01T00:00:00",
             "1169": "2024-10-04T00:00:00",
             "1170": "2024-10-07T00:00:00",
-            "1171": "2024-10-07T00:00:00",
-            "1172": "2024-10-08T00:00:00",
-            "1173": "2024-10-08T00:00:00",
-            "1174": "2024-10-08T00:00:00",
-            "1175": "2024-10-08T00:00:00",
-            "1176": "2024-10-09T00:00:00",
-            "1177": "2024-10-09T00:00:00",
-            "1178": "2024-10-09T00:00:00",
-            "1179": "2024-10-09T00:00:00"
+            "1171": "2024-10-07T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -28145,15 +27956,7 @@
             "1168": "Unknown",
             "1169": "Unknown",
             "1170": "Unknown",
-            "1171": "Unknown",
-            "1172": "Unknown",
-            "1173": "Unknown",
-            "1174": "Unknown",
-            "1175": "Unknown",
-            "1176": "Unknown",
-            "1177": "Unknown",
-            "1178": "Unknown",
-            "1179": "Unknown"
+            "1171": "Unknown"
         },
         "notes": {
             "0": "",
@@ -29327,15 +29130,7 @@
             "1168": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-38226; https://nvd.nist.gov/vuln/detail/CVE-2024-38226",
             "1169": "https://forums.ivanti.com/s/article/Security-Advisory-Ivanti-Cloud-Service-Appliance-CSA-CVE-2024-8190; https://nvd.nist.gov/vuln/detail/CVE-2024-8190",
             "1170": "https://community.progress.com/s/article/WhatsUp-Gold-Security-Bulletin-August-2024 ; https://nvd.nist.gov/vuln/detail/CVE-2024-6670",
-            "1171": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-43461 ; https://nvd.nist.gov/vuln/detail/CVE-2024-43461",
-            "1172": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2014-0502",
-            "1173": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2013-0648",
-            "1174": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2013-0643",
-            "1175": "https://www.adobe.com/products/flashplayer/end-of-life-alternative.html#eol-alternative-faq ; https://nvd.nist.gov/vuln/detail/CVE-2014-0497",
-            "1176": "https://www.oracle.com/security-alerts/cpujul2020.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-14644",
-            "1177": "https://www.oracle.com/security-alerts/cpuapr2022.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2022-21445",
-            "1178": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2020-0618  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-0618",
-            "1179": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see:  https://lists.apache.org/thread/nx6g6htyhpgtzsocybm242781o8w5kq9  ;  https://nvd.nist.gov/vuln/detail/CVE-2024-27348"
+            "1171": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-43461 ; https://nvd.nist.gov/vuln/detail/CVE-2024-43461"
         },
         "cwes": {
             "0": [],
@@ -30529,22 +30324,6 @@
             ],
             "1171": [
                 "CWE-451"
-            ],
-            "1172": [
-                "CWE-399"
-            ],
-            "1173": [],
-            "1174": [
-                "CWE-264"
-            ],
-            "1175": [
-                "CWE-191"
-            ],
-            "1176": [],
-            "1177": [],
-            "1178": [],
-            "1179": [
-                "CWE-284"
             ]
         },
         "EPSS": {
@@ -31719,15 +31498,7 @@
             "1168": 0.00051,
             "1169": 0.02252,
             "1170": 0.6025,
-            "1171": 0.00091,
-            "1172": 0.85931,
-            "1173": 0.3649,
-            "1174": 0.39116,
-            "1175": 0.97249,
-            "1176": 0.04636,
-            "1177": 0.00705,
-            "1178": 0.97335,
-            "1179": 0.0021
+            "1171": 0.00091
         },
         "CVSS3": {
             "0": 9.8,
@@ -32901,15 +32672,7 @@
             "1168": 7.3,
             "1169": 7.2,
             "1170": 9.8,
-            "1171": 8.8,
-            "1172": 10.0,
-            "1173": 9.3,
-            "1174": 9.3,
-            "1175": 10.0,
-            "1176": 9.8,
-            "1177": 9.8,
-            "1178": 8.8,
-            "1179": 9.8
+            "1171": 8.8
         }
     }
 }
