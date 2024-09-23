@@ -1,7 +1,7 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.09.19",
-    "dateReleased": "2024-09-19T17:52:58.433Z",
+    "catalogVersion": "2024.09.18",
+    "dateReleased": "2024-09-18T14:05:34.7103Z",
     "count": 1181,
     "vulnerabilities": [
         {
@@ -17464,14 +17464,27 @@
         {
             "cveID": "CVE-2022-21445",
             "vendorProject": "Oracle",
-            "product": "ADF Faces",
-            "vulnerabilityName": "Oracle ADF Faces Deserialization of Untrusted Data Vulnerability",
+            "product": "JDeveloper",
+            "vulnerabilityName": "Oracle JDeveloper Remote Code Execution Vulnerability",
             "dateAdded": "2024-09-18",
-            "shortDescription": "Oracle ADF Faces library, included with Oracle JDeveloper Distribution, contains a deserialization of untrusted data vulnerability leading to unauthenticated remote code execution.",
+            "shortDescription": "Oracle JDeveloper, a product within the Fusion Middleware suite, contains an deserialization vulnerability the ADF Faces component, leading to unauthenticated remote code execution.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-10-09",
             "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://www.oracle.com/security-alerts/cpuapr2022.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2022-21445",
+            "cwes": []
+        },
+        {
+            "cveID": "CVE-2019-1069",
+            "vendorProject": "Microsoft",
+            "product": "Windows",
+            "vulnerabilityName": "Microsoft Windows Task Scheduler Privilege Escalation Vulnerability",
+            "dateAdded": "2024-09-18",
+            "shortDescription": "Microsoft Windows Task Scheduler contains a privilege escalation vulnerability in the way that the SetJobFileSecurityByName() function is used that can allow an authenticated attacker to gain SYSTEM privileges on an affected system.",
+            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
+            "dueDate": "2024-10-09",
+            "knownRansomwareCampaignUse": "Unknown",
+            "notes": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2019-1069  ;  https://nvd.nist.gov/vuln/detail/CVE-2019-1069",
             "cwes": []
         },
         {
@@ -17500,21 +17513,6 @@
             "notes": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see:  https://lists.apache.org/thread/nx6g6htyhpgtzsocybm242781o8w5kq9  ;  https://nvd.nist.gov/vuln/detail/CVE-2024-27348",
             "cwes": [
                 "CWE-284"
-            ]
-        },
-        {
-            "cveID": "CVE-2024-8963",
-            "vendorProject": "Ivanti",
-            "product": "Cloud Services Appliance (CSA)",
-            "vulnerabilityName": "Ivanti Cloud Services Appliance (CSA) Path Traversal Vulnerability",
-            "dateAdded": "2024-09-19",
-            "shortDescription": "Ivanti Cloud Services Appliance (CSA) contains a path traversal vulnerability that could allow a remote, unauthenticated attacker to access restricted functionality. If CVE-2024-8963 is used in conjunction with CVE-2024-8190, an attacker could bypass admin authentication and execute arbitrary commands on the appliance.",
-            "requiredAction": "As Ivanti CSA has reached End-of-Life status, users are urged to remove CSA 4.6.x from service or upgrade to the 5.0.x line of supported solutions, as future vulnerabilities on the 4.6.x version of CSA are unlikely to receive security updates.",
-            "dueDate": "2024-10-10",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://forums.ivanti.com/s/article/Security-Advisory-Ivanti-CSA-4-6-Cloud-Services-Appliance-CVE-2024-8963 ; https://nvd.nist.gov/vuln/detail/CVE-2024-8963",
-            "cwes": [
-                "CWE-22"
             ]
         }
     ],
@@ -18699,8 +18697,7 @@
             "1176": "CVE-2020-14644",
             "1177": "CVE-2022-21445",
             "1178": "CVE-2020-0618",
-            "1179": "CVE-2024-27348",
-            "1180": "CVE-2024-8963"
+            "1179": "CVE-2024-27348"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -19882,8 +19879,7 @@
             "1176": "Oracle",
             "1177": "Oracle",
             "1178": "Microsoft",
-            "1179": "Apache",
-            "1180": "Ivanti"
+            "1179": "Apache"
         },
         "product": {
             "0": "FTA",
@@ -21065,8 +21061,7 @@
             "1176": "WebLogic Server",
             "1177": "JDeveloper",
             "1178": "SQL Server",
-            "1179": "HugeGraph-Server",
-            "1180": "Cloud Services Appliance (CSA)"
+            "1179": "HugeGraph-Server"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -22248,8 +22243,7 @@
             "1176": "Oracle WebLogic Server Remote Code Execution Vulnerability",
             "1177": "Oracle JDeveloper Remote Code Execution Vulnerability",
             "1178": "Microsoft SQL Server Reporting Services Remote Code Execution Vulnerability",
-            "1179": "Apache HugeGraph-Server Improper Access Control Vulnerability",
-            "1180": "Ivanti Cloud Services Appliance (CSA) Path Traversal Vulnerability"
+            "1179": "Apache HugeGraph-Server Improper Access Control Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -23431,8 +23425,7 @@
             "1176": "2024-09-18T00:00:00",
             "1177": "2024-09-18T00:00:00",
             "1178": "2024-09-18T00:00:00",
-            "1179": "2024-09-18T00:00:00",
-            "1180": "2024-09-19T00:00:00"
+            "1179": "2024-09-18T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -24614,8 +24607,7 @@
             "1176": "Oracle WebLogic Server, a product within the Fusion Middleware suite, contains a deserialization vulnerability. Unauthenticated attackers with network access via T3 or IIOP can exploit this vulnerability to achieve remote code execution.",
             "1177": "Oracle JDeveloper, a product within the Fusion Middleware suite, contains an deserialization vulnerability the ADF Faces component, leading to unauthenticated remote code execution.",
             "1178": "Microsoft SQL Server Reporting Services contains a deserialization vulnerability when handling page requests incorrectly. An authenticated attacker can exploit this vulnerability to execute code in the context of the Report Server service account.",
-            "1179": "Apache HugeGraph-Server contains an improper access control vulnerability that could allow a remote attacker to execute arbitrary code.",
-            "1180": "Ivanti Cloud Services Appliance (CSA) contains a path traversal vulnerability that could allow a remote, unauthenticated attacker to access restricted functionality. If CVE-2024-8963 is used in conjunction with CVE-2024-8190, an attacker could bypass admin authentication and execute arbitrary commands on the appliance."
+            "1179": "Apache HugeGraph-Server contains an improper access control vulnerability that could allow a remote attacker to execute arbitrary code."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -25797,8 +25789,7 @@
             "1176": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1177": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1178": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1179": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1180": "As Ivanti CSA has reached End-of-Life status, users are urged to remove CSA 4.6.x from service or upgrade to the 5.0.x line of supported solutions, as future vulnerabilities on the 4.6.x version of CSA are unlikely to receive security updates."
+            "1179": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -26980,8 +26971,7 @@
             "1176": "2024-10-09T00:00:00",
             "1177": "2024-10-09T00:00:00",
             "1178": "2024-10-09T00:00:00",
-            "1179": "2024-10-09T00:00:00",
-            "1180": "2024-10-10T00:00:00"
+            "1179": "2024-10-09T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -28163,8 +28153,7 @@
             "1176": "Unknown",
             "1177": "Unknown",
             "1178": "Unknown",
-            "1179": "Unknown",
-            "1180": "Unknown"
+            "1179": "Unknown"
         },
         "notes": {
             "0": "",
@@ -29346,8 +29335,7 @@
             "1176": "https://www.oracle.com/security-alerts/cpujul2020.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-14644",
             "1177": "https://www.oracle.com/security-alerts/cpuapr2022.html  ;  https://nvd.nist.gov/vuln/detail/CVE-2022-21445",
             "1178": "https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2020-0618  ;  https://nvd.nist.gov/vuln/detail/CVE-2020-0618",
-            "1179": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see:  https://lists.apache.org/thread/nx6g6htyhpgtzsocybm242781o8w5kq9  ;  https://nvd.nist.gov/vuln/detail/CVE-2024-27348",
-            "1180": "https://forums.ivanti.com/s/article/Security-Advisory-Ivanti-CSA-4-6-Cloud-Services-Appliance-CVE-2024-8963 ; https://nvd.nist.gov/vuln/detail/CVE-2024-8963"
+            "1179": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see:  https://lists.apache.org/thread/nx6g6htyhpgtzsocybm242781o8w5kq9  ;  https://nvd.nist.gov/vuln/detail/CVE-2024-27348"
         },
         "cwes": {
             "0": [],
@@ -30557,9 +30545,6 @@
             "1178": [],
             "1179": [
                 "CWE-284"
-            ],
-            "1180": [
-                "CWE-22"
             ]
         },
         "EPSS": {
@@ -31742,8 +31727,7 @@
             "1176": 0.04636,
             "1177": 0.00705,
             "1178": 0.97335,
-            "1179": 0.0021,
-            "1180": 0.30991
+            "1179": 0.0021
         },
         "CVSS3": {
             "0": 9.8,
@@ -32925,8 +32909,7 @@
             "1176": 9.8,
             "1177": 9.8,
             "1178": 8.8,
-            "1179": 9.8,
-            "1180": 9.1
+            "1179": 9.8
         }
     }
 }
