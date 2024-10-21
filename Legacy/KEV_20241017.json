@@ -1,69 +1,9 @@
 {
     "title": "CISA Catalog of Known Exploited Vulnerabilities",
-    "catalogVersion": "2024.10.17",
-    "dateReleased": "2024-10-17T14:50:49.2815Z",
-    "count": 1197,
+    "catalogVersion": "2024.10.09",
+    "dateReleased": "2024-10-09T14:00:37.7242Z",
+    "count": 1193,
     "vulnerabilities": [
-        {
-            "cveID": "CVE-2024-40711",
-            "vendorProject": "Veeam",
-            "product": "Backup & Replication",
-            "vulnerabilityName": "Veeam Backup and Replication Deserialization Vulnerability",
-            "dateAdded": "2024-10-17",
-            "shortDescription": "Veeam Backup and Replication contains a deserialization vulnerability allowing an unauthenticated user to perform remote code execution.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-11-07",
-            "knownRansomwareCampaignUse": "Known",
-            "notes": "https://www.veeam.com/kb4649 ; https://nvd.nist.gov/vuln/detail/CVE-2024-40711",
-            "cwes": [
-                "CWE-502"
-            ]
-        },
-        {
-            "cveID": "CVE-2024-28987",
-            "vendorProject": "SolarWinds",
-            "product": "Web Help Desk",
-            "vulnerabilityName": "SolarWinds Web Help Desk Hardcoded Credential Vulnerability",
-            "dateAdded": "2024-10-15",
-            "shortDescription": "SolarWinds Web Help Desk contains a hardcoded credential vulnerability that could allow a remote, unauthenticated user to access internal functionality and modify data.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-11-05",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.solarwinds.com/trust-center/security-advisories/cve-2024-28987 ; https://nvd.nist.gov/vuln/detail/CVE-2024-28987",
-            "cwes": [
-                "CWE-798"
-            ]
-        },
-        {
-            "cveID": "CVE-2024-9680",
-            "vendorProject": "Mozilla",
-            "product": "Firefox",
-            "vulnerabilityName": "Mozilla Firefox Use-After-Free Vulnerability",
-            "dateAdded": "2024-10-15",
-            "shortDescription": "Mozilla Firefox and Firefox ESR contain a use-after-free vulnerability in Animation timelines that allows for code execution in the content process.",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-11-05",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://www.mozilla.org/en-US/security/advisories/mfsa2024-51/ ; https://nvd.nist.gov/vuln/detail/CVE-2024-9680",
-            "cwes": [
-                "CWE-416"
-            ]
-        },
-        {
-            "cveID": "CVE-2024-30088",
-            "vendorProject": "Microsoft",
-            "product": "Windows ",
-            "vulnerabilityName": "Microsoft Windows Kernel TOCTOU Race Condition Vulnerability",
-            "dateAdded": "2024-10-15",
-            "shortDescription": "Microsoft Windows Kernel contains a time-of-check to time-of-use (TOCTOU) race condition vulnerability that could allow for privilege escalation. ",
-            "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "dueDate": "2024-11-05",
-            "knownRansomwareCampaignUse": "Unknown",
-            "notes": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2024-30088 ; https://nvd.nist.gov/vuln/detail/CVE-2024-30088",
-            "cwes": [
-                "CWE-367"
-            ]
-        },
         {
             "cveID": "CVE-2024-9380",
             "vendorProject": "Ivanti",
@@ -1692,7 +1632,7 @@
             "shortDescription": "Microsoft Windows Kernel contains an exposed IOCTL with insufficient access control vulnerability within the IOCTL (input and output control) dispatcher in appid.sys that allows a local attacker to achieve privilege escalation.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-03-25",
-            "knownRansomwareCampaignUse": "Known",
+            "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://msrc.microsoft.com/update-guide/vulnerability/CVE-2024-21338; https://nvd.nist.gov/vuln/detail/CVE-2024-21338",
             "cwes": [
                 "CWE-822"
@@ -2095,7 +2035,7 @@
             "shortDescription": "Adobe ColdFusion contains a deserialization of untrusted data vulnerability that allows for code execution.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-01-29",
-            "knownRansomwareCampaignUse": "Known",
+            "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://helpx.adobe.com/security/products/coldfusion/apsb23-40.html; https://nvd.nist.gov/vuln/detail/CVE-2023-29300",
             "cwes": [
                 "CWE-502"
@@ -2110,7 +2050,7 @@
             "shortDescription": "Adobe ColdFusion contains a deserialization of untrusted data vulnerability that allows for code execution.",
             "requiredAction": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "dueDate": "2024-01-29",
-            "knownRansomwareCampaignUse": "Known",
+            "knownRansomwareCampaignUse": "Unknown",
             "notes": "https://helpx.adobe.com/security/products/coldfusion/apsb23-41.html ;  https://nvd.nist.gov/vuln/detail/CVE-2023-38203",
             "cwes": [
                 "CWE-502"
@@ -18948,11 +18888,7 @@
             "1190": "CVE-2021-4043",
             "1191": "CVE-2020-15415",
             "1192": "CVE-2023-25280",
-            "1193": "CVE-2024-7593",
-            "1194": "CVE-2024-40711",
-            "1195": "CVE-2024-28987",
-            "1196": "CVE-2024-9680",
-            "1197": "CVE-2024-30088"
+            "1193": "CVE-2024-7593"
         },
         "vendorProject": {
             "0": "Accellion",
@@ -20148,11 +20084,7 @@
             "1190": "Motion Spell",
             "1191": "DrayTek",
             "1192": "D-Link",
-            "1193": "Ivanti",
-            "1194": "Veeam",
-            "1195": "SolarWinds",
-            "1196": "Mozilla",
-            "1197": "Microsoft"
+            "1193": "Ivanti"
         },
         "product": {
             "0": "FTA",
@@ -21348,11 +21280,7 @@
             "1190": "GPAC",
             "1191": "Multiple Vigor Routers",
             "1192": "DIR-820 Router",
-            "1193": "Virtual Traffic Manager",
-            "1194": "Backup & Replication",
-            "1195": "Web Help Desk",
-            "1196": "Firefox",
-            "1197": "Windows "
+            "1193": "Virtual Traffic Manager"
         },
         "vulnerabilityName": {
             "0": "Accellion FTA OS Command Injection Vulnerability",
@@ -22548,11 +22476,7 @@
             "1190": "Motion Spell GPAC Null Pointer Dereference Vulnerability",
             "1191": "DrayTek Multiple Vigor Routers OS Command Injection Vulnerability",
             "1192": "D-Link DIR-820 Router OS Command Injection Vulnerability",
-            "1193": "Ivanti Virtual Traffic Manager Authentication Bypass Vulnerability",
-            "1194": "Veeam Backup and Replication Deserialization Vulnerability",
-            "1195": "SolarWinds Web Help Desk Hardcoded Credential Vulnerability",
-            "1196": "Mozilla Firefox Use-After-Free Vulnerability",
-            "1197": "Microsoft Windows Kernel TOCTOU Race Condition Vulnerability"
+            "1193": "Ivanti Virtual Traffic Manager Authentication Bypass Vulnerability"
         },
         "dateAdded": {
             "0": "2021-11-03T00:00:00",
@@ -23748,11 +23672,7 @@
             "1190": "2024-09-30T00:00:00",
             "1191": "2024-09-30T00:00:00",
             "1192": "2024-09-30T00:00:00",
-            "1193": "2024-09-24T00:00:00",
-            "1194": "2024-10-17T00:00:00",
-            "1195": "2024-10-15T00:00:00",
-            "1196": "2024-10-15T00:00:00",
-            "1197": "2024-10-15T00:00:00"
+            "1193": "2024-09-24T00:00:00"
         },
         "shortDescription": {
             "0": "Accellion FTA contains an OS command injection vulnerability exploited via a crafted POST request to various admin endpoints.",
@@ -24948,11 +24868,7 @@
             "1190": "Motion Spell GPAC contains a null pointer dereference vulnerability that could allow a local attacker to cause a denial-of-service (DoS) condition.",
             "1191": "DrayTek Vigor3900, Vigor2960, and Vigor300B devices contain an OS command injection vulnerability in cgi-bin/mainfunction.cgi/cvmcfgupload that allows for remote code execution via shell metacharacters in a filename when the text/x-python-script content type is used.",
             "1192": "D-Link DIR-820 routers contain an OS command injection vulnerability that allows a remote, unauthenticated attacker to escalate privileges to root via a crafted payload with the ping_addr parameter to ping.ccp.",
-            "1193": "Ivanti Virtual Traffic Manager contains an authentication bypass vulnerability that allows a remote, unauthenticated attacker to create a chosen administrator account.",
-            "1194": "Veeam Backup and Replication contains a deserialization vulnerability allowing an unauthenticated user to perform remote code execution.",
-            "1195": "SolarWinds Web Help Desk contains a hardcoded credential vulnerability that could allow a remote, unauthenticated user to access internal functionality and modify data.",
-            "1196": "Mozilla Firefox and Firefox ESR contain a use-after-free vulnerability in Animation timelines that allows for code execution in the content process.",
-            "1197": "Microsoft Windows Kernel contains a time-of-check to time-of-use (TOCTOU) race condition vulnerability that could allow for privilege escalation. "
+            "1193": "Ivanti Virtual Traffic Manager contains an authentication bypass vulnerability that allows a remote, unauthenticated attacker to create a chosen administrator account."
         },
         "requiredAction": {
             "0": "Apply updates per vendor instructions.",
@@ -26148,11 +26064,7 @@
             "1190": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1191": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
             "1192": "The impacted product is end-of-life (EoL) and/or end-of-service (EoS). Users should discontinue utilization of the product.",
-            "1193": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1194": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1195": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1196": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable.",
-            "1197": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
+            "1193": "Apply mitigations per vendor instructions or discontinue use of the product if mitigations are unavailable."
         },
         "dueDate": {
             "0": "2021-11-17T00:00:00",
@@ -27348,11 +27260,7 @@
             "1190": "2024-10-21T00:00:00",
             "1191": "2024-10-21T00:00:00",
             "1192": "2024-10-21T00:00:00",
-            "1193": "2024-10-15T00:00:00",
-            "1194": "2024-11-07T00:00:00",
-            "1195": "2024-11-05T00:00:00",
-            "1196": "2024-11-05T00:00:00",
-            "1197": "2024-11-05T00:00:00"
+            "1193": "2024-10-15T00:00:00"
         },
         "knownRansomwareCampaignUse": {
             "0": "Known",
@@ -28548,11 +28456,7 @@
             "1190": "Unknown",
             "1191": "Unknown",
             "1192": "Unknown",
-            "1193": "Unknown",
-            "1194": "Known",
-            "1195": "Unknown",
-            "1196": "Unknown",
-            "1197": "Unknown"
+            "1193": "Unknown"
         },
         "notes": {
             "0": "",
@@ -29748,11 +29652,7 @@
             "1190": "This vulnerability affects a common open-source component, third-party library, or a protocol used by different products. For more information, please see: https://github.com/gpac/gpac/commit/64a2e1b799352ac7d7aad1989bc06e7b0f2b01db ; https://nvd.nist.gov/vuln/detail/CVE-2021-4043",
             "1191": "https://www.draytek.com/about/security-advisory/vigor3900-/-vigor2960-/-vigor300b-remote-code-injection/execution-vulnerability-(cve-2020-14472) ; https://nvd.nist.gov/vuln/detail/CVE-2020-15415",
             "1192": "https://supportannouncement.us.dlink.com/security/publication.aspx?name=SAP10358 ; https://nvd.nist.gov/vuln/detail/CVE-2023-25280",
-            "1193": "https://forums.ivanti.com/s/article/Security-Advisory-Ivanti-Virtual-Traffic-Manager-vTM-CVE-2024-7593 ; https://nvd.nist.gov/vuln/detail/CVE-2024-7593",
-            "1194": "https://www.veeam.com/kb4649 ; https://nvd.nist.gov/vuln/detail/CVE-2024-40711",
-            "1195": "https://www.solarwinds.com/trust-center/security-advisories/cve-2024-28987 ; https://nvd.nist.gov/vuln/detail/CVE-2024-28987",
-            "1196": "https://www.mozilla.org/en-US/security/advisories/mfsa2024-51/ ; https://nvd.nist.gov/vuln/detail/CVE-2024-9680",
-            "1197": "https://msrc.microsoft.com/update-guide/en-US/vulnerability/CVE-2024-30088 ; https://nvd.nist.gov/vuln/detail/CVE-2024-30088"
+            "1193": "https://forums.ivanti.com/s/article/Security-Advisory-Ivanti-Virtual-Traffic-Manager-vTM-CVE-2024-7593 ; https://nvd.nist.gov/vuln/detail/CVE-2024-7593"
         },
         "cwes": {
             "0": [],
@@ -30999,18 +30899,6 @@
             "1193": [
                 "CWE-287",
                 "CWE-303"
-            ],
-            "1194": [
-                "CWE-502"
-            ],
-            "1195": [
-                "CWE-798"
-            ],
-            "1196": [
-                "CWE-416"
-            ],
-            "1197": [
-                "CWE-367"
             ]
         },
         "EPSS": {
@@ -32207,11 +32095,7 @@
             "1190": 0.00911,
             "1191": 0.93019,
             "1192": 0.021,
-            "1193": 0.97325,
-            "1194": 0.96763,
-            "1195": 0.96019,
-            "1196": 0.01643,
-            "1197": 0.00424
+            "1193": 0.97325
         },
         "CVSS3": {
             "0": 9.8,
@@ -33407,11 +33291,7 @@
             "1190": 5.5,
             "1191": 9.8,
             "1192": 9.8,
-            "1193": 9.8,
-            "1194": 9.8,
-            "1195": 9.1,
-            "1196": 9.8,
-            "1197": 7.0
+            "1193": 9.8
         }
     }
 }
